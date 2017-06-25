@@ -137,4 +137,31 @@ $(document).ready(function() {
             $(".checkboxBook").prop("checked",false);
         }
     })
+
+    $('.delete-one-book').on('click', function () {
+        /*<![CDATA[*/
+        var path = /*[[@{/}]]*/'remove';
+        /*]]>*/
+
+        var id = $(this).attr('id');
+
+        bootbox.confirm({
+            message: "你真的確定要刪除這個嗎？",
+            buttons: {
+                cancel: {
+                    label: '<i class="fa fa-times"></i> 取消'
+                },
+                confirm: {
+                    label: '<i class="fa fa-check"></i> 確定'
+                }
+            },
+            callback: function (confirmed) {
+                if (confirmed) {
+                    $.post(path, {'id': id}, function (res) {
+                        history.back();
+                    });
+                }
+            }
+        });
+    });
 });

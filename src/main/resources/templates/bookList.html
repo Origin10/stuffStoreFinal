@@ -5,10 +5,8 @@
     <div th:replace="common/header :: navbar"/>
     <div class="container">
       <div class="row">
-        <div class="col-md-8 text-left">
-          <div style="position:relative; top:30px" class="btn-group"><a type="button" th:href="@{/book/add}" class="btn btn-primary">新增物資</a></div>
-          <div class="col-md-4 text-left"></div>
-        </div>
+        <div style="padding-bottom:15px;" class="col-md-4 text-left"><a type="button" th:href="@{/book/add}" class="btn btn-primary">新增物資</a></div>
+        <div class="col-md-8"></div>
       </div>
     </div>
     <div class="container">
@@ -21,8 +19,9 @@
               </th>
               <th>名稱</th>
               <th>製造商</th>
+              <th>分類</th>
               <th>公司價</th>
-              <th>賣家價</th>
+              <th>供應者成本</th>
               <th>公開或暫存</th>
               <th>操作</th>
             </tr>
@@ -35,12 +34,13 @@
               </td>
               <td><a th:href="@{/book/bookInfo(id=${book.id})}"><span th:text="${book.title}"></span></a></td>
               <td th:text="${book.author}"></td>
+              <td th:text="${book.category}"></td>
               <td th:text="${book.listPrice}"></td>
               <td th:text="${book.ourPrice}"></td>
               <td th:text="${book.active}"></td>
               <td>
                 <input hidden="hidden" name="id" th:value="${book.id}"/>
-                <button th:id="'oneBook-'+${book.id}" type="submit" value="delete" class="btn btn-danger btn-xs delete-book"><span class="fa fa-times"></span>刪除</button>
+                <button th:id="'oneBook-'+${book.id}" type="submit" value="delete" class="btn btn-danger btn-sm delete-book"><span class="fa fa-times"></span>&nbsp;刪除</button>&nbsp; <a th:href="@{/book/updateBook?id=}+${book.id}" style="color:#fff" class="btn btn-info btn-sm"><span class="fa fa-fw fa-pencil"> </span>&nbsp;編輯</a>
               </td>
             </tr>
           </tbody>

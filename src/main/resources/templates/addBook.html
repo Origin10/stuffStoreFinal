@@ -9,7 +9,10 @@
       <div class="row">
         <form th:action="@{/book/add}" method="post" enctype="multipart/form-data" class="form-horizontal">
           <fieldset>
-            <legend class="center-block">新增的物資資訊<span style="font-size: small" class="text-right">* 是需要填寫的欄位</span></legend>
+            <div class="text-center">
+              <legend>新增物資</legend>
+            </div>
+            <div style="font-size: small; color:darkred; margin-right:20px;" class="text-right"><span>* 是需要填寫的欄位</span></div>
             <!-- title-->
             <div class="form-group">
               <label for="title" class="col-md-2 control-label">* 名稱</label>
@@ -37,7 +40,7 @@
             <div class="form-group">
               <label for="publicationDate" class="col-md-2 control-label">製造日期</label>
               <div class="col-md-8">
-                <input id="publicationDate" type="date" name="publicationDate" th:value="${book.publicationDate}" placeholder="ublication Date" class="form-control"/><span class="help-block">物資的製造日期</span>
+                <input id="publicationDate" type="date" name="publicationDate" th:value="${book.publicationDate}" class="form-control"/><span class="help-block">物資的製造日期</span>
               </div>
             </div>
             <!-- language-->
@@ -45,8 +48,8 @@
               <label for="language" class="col-md-2 control-label">產地</label>
               <div class="col-md-8">
                 <select id="language" th:value="${book.language}" name="language" class="form-control">
-                  <option value="english">國內</option>
-                  <option value="spanish">國外</option>
+                  <option value="國內">國內</option>
+                  <option value="國外">國外</option>
                 </select>
               </div>
             </div>
@@ -59,11 +62,11 @@
               <div class="col-md-8">
                 <select id="category" th:value="${book.category}" name="category" class="form-control">
                   <option value="" selected="selected" disabled="disabled">請選擇一項分類</option>
-                  <option value="Management" th:selected="(${book.category}=='Management')">玩具</option>
-                  <option value="Fiction" th:selected="(${book.category}=='Fiction')">食物</option>
-                  <option value="Engineering" th:selected="(${book.category}=='Engineering')">保養品</option>
-                  <option value="Programming" th:selected="(${book.category}=='Programming')">日常消耗品</option>
-                  <option value="Arts &amp;amp; Literature" th:selected="(${book.category}=='Arts &amp; Literature')">其他</option>
+                  <option value="玩具" th:selected="(${book.category}=='玩具')">玩具</option>
+                  <option value="食物" th:selected="(${book.category}=='食物')">食物</option>
+                  <option value="保養品" th:selected="(${book.category}=='保養品')">保養品</option>
+                  <option value="日常消耗品" th:selected="(${book.category}=='日常消耗品')">日常消耗品</option>
+                  <option value="其他" th:selected="(${book.category}=='其他')">其他</option>
                 </select>
               </div>
             </div>
@@ -71,7 +74,7 @@
             <div class="form-group">
               <label for="pageNumber" class="col-md-2 control-label">單位重量</label>
               <div class="col-md-8">
-                <input id="pageNumber" type="number" name="numberOfPages" th:value="${book.numberOfPages}" placeholder="Page Number" class="form-control"/><span class="help-block">物資的重量</span>
+                <input id="pageNumber" type="number" name="numberOfPages" th:value="${book.numberOfPages}" class="form-control"/><span class="help-block">物資的重量</span>
               </div>
             </div>
             <!-- format-->
@@ -79,8 +82,8 @@
               <label for="format" class="col-md-2 control-label">保存方式</label>
               <div class="col-md-8">
                 <select id="format" th:value="${book.format}" name="format" class="form-control">
-                  <option value="paperback">常溫</option>
-                  <option value="hardcover">冷藏</option>
+                  <option value="常溫">常溫</option>
+                  <option value="冷藏">冷藏</option>
                 </select>
               </div>
             </div>
@@ -88,7 +91,7 @@
             <div class="form-group">
               <label for="isbn" class="col-md-2 control-label">相關認證字號</label>
               <div class="col-md-8">
-                <input id="isbn" type="text" name="isbn" th:value="${book.isbn}" placeholder="ISBN" class="form-control"/><span class="help-block">(食品)寵物食品認證字號</span>
+                <input id="isbn" type="text" name="isbn" th:value="${book.isbn}" class="form-control"/><span class="help-block">(食品)寵物食品認證字號</span>
               </div>
             </div>
             <!-- shipping weight-->
@@ -105,7 +108,7 @@
               <label for="listPrice" class="col-md-2 control-label">公司價</label>
               <div class="col-md-8">
                 <div class="input-group"><span class="input-group-addon">$</span>
-                  <input id="listPrice" th:value="${book.listPrice}" type="number" name="listPrice" step="0.01" placeholder="List Price" class="form-control"/>
+                  <input id="listPrice" th:value="${book.listPrice}" type="number" name="listPrice" step="0.01" class="form-control"/>
                 </div><span class="help-block">
                    
                   公司價</span>
@@ -113,18 +116,18 @@
             </div>
             <!-- our price-->
             <div class="form-group">
-              <label for="ourPrice" class="col-md-2 control-label">賣家價</label>
+              <label for="ourPrice" class="col-md-2 control-label">供應者成本</label>
               <div class="col-md-8">
                 <div class="input-group"><span class="input-group-addon">$</span>
-                  <input id="ourPrice" th:value="${book.ourPrice}" type="number" name="ourPrice" step="0.01" placeholder="Our Price" class="form-control"/>
-                </div><span class="help-block">賣家價</span>
+                  <input id="ourPrice" th:value="${book.ourPrice}" type="number" name="ourPrice" step="0.01" class="form-control"/>
+                </div><span class="help-block">供應者成本</span>
               </div>
             </div>
             <!-- in stock number-->
             <div class="form-group">
-              <label for="inStockNumber" class="col-md-2 control-label">市價</label>
+              <label for="inStockNumber" class="col-md-2 control-label">*　庫存</label>
               <div class="col-md-8">
-                <input id="inStockNumber" th:value="${book.inStockNumber}" type="number" name="inStockNumber" placeholder="Number of in-stock copies" class="form-control"/><span class="help-block">相似商品的市價</span>
+                <input id="inStockNumber" th:value="${book.inStockNumber}" type="number" name="inStockNumber" placeholder="Number of in-stock copies" required="required" class="form-control"/><span class="help-block">可供應的庫存數量</span>
               </div>
             </div>
             <!-- status of book-->

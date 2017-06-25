@@ -11,10 +11,10 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
       .row
         form.form-horizontal(th:action='@{/book/add}', method='post', enctype='multipart/form-data')
           fieldset
-            legend.center-block
-              | 新增的物資資訊
-              span.text-right(style='font-size: small')
-                | * 是需要填寫的欄位
+            div.text-center
+              legend 新增物資
+            div.text-right(style='font-size: small; color:darkred; margin-right:20px;')
+              span * 是需要填寫的欄位
             // title
             .form-group
               label.col-md-2.control-label(for='title') * 名稱
@@ -42,7 +42,7 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
               label.col-md-2.control-label(for='publicationDate')
                 | 製造日期
               .col-md-8
-                input#publicationDate.form-control(type='date', name='publicationDate', th:value='${book.publicationDate}', placeholder='ublication Date')
+                input#publicationDate.form-control(type='date', name='publicationDate', th:value='${book.publicationDate}' )
                 span.help-block
                   | 物資的製造日期
             // language
@@ -50,8 +50,8 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
               label.col-md-2.control-label(for='language') 產地
               .col-md-8
                 select#language.form-control(th:value='${book.language}', name='language')
-                  option(value='english') 國內
-                  option(value='spanish') 國外
+                  option(value='國內') 國內
+                  option(value='國外') 國外
             // category
             .form-group
               label.col-md-2.control-label(for='category')
@@ -61,16 +61,16 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                 select#category.form-control(th:value='${book.category}', name='category')
                   option(value='', selected='selected', disabled='disabled')
                     | 請選擇一項分類
-                  option(value='Management', th:selected="(${book.category}=='Management')") 玩具
-                  option(value='Fiction', th:selected="(${book.category}=='Fiction')") 食物
-                  option(value='Engineering', th:selected="(${book.category}=='Engineering')") 保養品
-                  option(value='Programming', th:selected="(${book.category}=='Programming')") 日常消耗品
-                  option(value='Arts &amp; Literature', th:selected="(${book.category}=='Arts & Literature')") 其他
+                  option(value='玩具', th:selected="(${book.category}=='玩具')") 玩具
+                  option(value='食物', th:selected="(${book.category}=='食物')") 食物
+                  option(value='保養品', th:selected="(${book.category}=='保養品')") 保養品
+                  option(value='日常消耗品', th:selected="(${book.category}=='日常消耗品')") 日常消耗品
+                  option(value='其他', th:selected="(${book.category}=='其他')") 其他
             // pages
             .form-group
               label.col-md-2.control-label(for='pageNumber') 單位重量
               .col-md-8
-                input#pageNumber.form-control(type='number', name='numberOfPages', th:value='${book.numberOfPages}', placeholder='Page Number')
+                input#pageNumber.form-control(type='number', name='numberOfPages', th:value='${book.numberOfPages}')
                 span.help-block
                   | 物資的重量
             // format
@@ -78,13 +78,13 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
               label.col-md-2.control-label(for='format') 保存方式
               .col-md-8
                 select#format.form-control(th:value='${book.format}', name='format')
-                  option(value='paperback') 常溫
-                  option(value='hardcover') 冷藏
+                  option(value='常溫') 常溫
+                  option(value='冷藏') 冷藏
             // isbn
             .form-group
               label.col-md-2.control-label(for='isbn') 相關認證字號
               .col-md-8
-                input#isbn.form-control(type='text', name='isbn', th:value='${book.isbn}', placeholder='ISBN')
+                input#isbn.form-control(type='text', name='isbn', th:value='${book.isbn}')
                 span.help-block (食品)寵物食品認證字號
             // shipping weight
             .form-group
@@ -102,26 +102,26 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
               .col-md-8
                 .input-group
                   span.input-group-addon $
-                  input#listPrice.form-control(th:value='${book.listPrice}', type='number', name='listPrice', step='0.01', placeholder='List Price')
+                  input#listPrice.form-control(th:value='${book.listPrice}', type='number', name='listPrice', step='0.01')
                 span.help-block 
                   | 公司價
             // our price
             .form-group
               label.col-md-2.control-label(for='ourPrice')
-                | 賣家價
+                | 供應者成本
               .col-md-8
                 .input-group
                   span.input-group-addon $
-                  input#ourPrice.form-control(th:value='${book.ourPrice}', type='number', name='ourPrice', step='0.01', placeholder='Our Price')
-                span.help-block 賣家價
+                  input#ourPrice.form-control(th:value='${book.ourPrice}', type='number', name='ourPrice', step='0.01')
+                span.help-block 供應者成本
             // in stock number
             .form-group
               label.col-md-2.control-label(for='inStockNumber')
-                | 市價
+                | *　庫存
               .col-md-8
-                input#inStockNumber.form-control(th:value='${book.inStockNumber}', type='number', name='inStockNumber', placeholder='Number of in-stock copies')
+                input#inStockNumber.form-control(th:value='${book.inStockNumber}', type='number', name='inStockNumber', placeholder='Number of in-stock copies', required='required')
                 span.help-block
-                  | 相似商品的市價
+                  | 可供應的庫存數量
             // status of book
             .form-group
               label.col-md-2.control-label(for='status') 狀態

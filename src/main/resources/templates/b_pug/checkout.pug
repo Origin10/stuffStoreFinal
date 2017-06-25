@@ -23,9 +23,9 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                 p(style='font-size: smaller;')
                   | 你同意關於PetFriends提供的
                   a(href='#') 政策
-                  | notice and 
-                  a(href='#') 條件
-                  | 來使用
+                  | 以及
+                  a(th:href='@{/auction}')  物資交換中心雙方條約
+                  
                 hr
                 h3 訂單簡要
                 .row
@@ -273,8 +273,7 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                       | 並且同意PetFriends所提供的 
                       a(href='#') 政策
                       | 訊息以及 
-                      a(th:href='@{/auction}')  買賣雙方條約
-                      |  使用
+                      a(th:href='@{/auction}')  物資交換中心雙方條約
     // end of container
     div(th:replace='common/header :: footer')/
     div(th:replace='common/header :: body-bottom-scripts')/

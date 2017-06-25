@@ -5,10 +5,9 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
     div(th:replace='common/header :: navbar')/
     .container
       .row
-        .col-md-8.text-left
-          .btn-group(style="position:relative; top:30px")
+        .col-md-4.text-left(style="padding-bottom:15px;")
             a.btn.btn-primary(type="button", th:href='@{/book/add}') 新增物資
-          .col-md-4.text-left
+          .col-md-8
     .container
       .table-responsive
         table#bookListTable.table.table-bordered.table-hover.table-striped
@@ -18,8 +17,9 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                 input(th:id='selectAllBooks', type='checkbox')
               th 名稱
               th 製造商
+              th 分類
               th 公司價
-              th 賣家價
+              th 供應者成本
               th 公開或暫存
               th 操作
           tbody
@@ -31,14 +31,19 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                 a(th:href='@{/book/bookInfo(id=${book.id})}')
                   span(th:text='${book.title}')
               td(th:text='${book.author}')
+              td(th:text='${book.category}')
               td(th:text='${book.listPrice}')
               td(th:text='${book.ourPrice}')
               td(th:text='${book.active}')
               td
                 input(hidden='hidden', name='id', th:value='${book.id}')
-                button.btn.btn-danger.btn-xs.delete-book(th:id="'oneBook-'+${book.id}", type='submit', value='delete')
+                button.btn.btn-danger.btn-sm.delete-book(th:id="'oneBook-'+${book.id}", type='submit', value='delete')
                   span.fa.fa-times
-                  | 刪除
+                  | &nbsp;刪除
+                &nbsp; 
+                a.btn.btn-info.btn-sm(th:href='@{/book/updateBook?id=}+${book.id}',style="color:#fff")
+                  span.fa.fa-fw.fa-pencil 
+                  | &nbsp;編輯
       button.btn.btn-danger(th:id='deleteSelected') 刪除已選擇
     div(th:replace='common/header :: body-bottom-scripts')/
     script.

@@ -51,24 +51,22 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
       hr
       .row
         .col-xs-4
-          .panel.panel-default
+          div
             .panel-body
               a(th:href='@{/bookshelf}')
                 img.img-responsive(src='/imgs/bestseller.png')
         .col-xs-4
-          div(clas='panel panel-default')
+          div
             .panel-body
               a(th:href='@{/hours}')
                 img.img-responsive(src='/imgs/hours.png')
         .col-xs-4
-          div(clas='panel panel-default')
+          div
             .panel-body
               a(th:href='@{/faq}')
                 img.img-responsive(src='/imgs/faq.png')
       div
-        .home-headline
-          span 熱銷商品
-        hr(style='margin-top: -15px;')
+        hr
       .row
         #featured-books.carousel.slide(data-ride='carousel')
           // Indicators

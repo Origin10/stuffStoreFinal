@@ -113,6 +113,16 @@ public class HomeController {
 		
 		return "bookshelf";
 	}
+
+	@RequestMapping("/bookInfo")
+	public String bookInfo(Model model, Principal principal) {
+		if(principal != null) {
+			String username = principal.getName();
+			User user = memService.findByUsername(username);
+			model.addAttribute("user", user);
+		}
+		return "bookInfo";
+	}
 	
 	@RequestMapping("/bookDetail")
 	public String bookDetail(

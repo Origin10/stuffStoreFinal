@@ -7,8 +7,7 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
       .row(style='margin-bottom: -100px;')
         .col-xs-8
           h2.section-headline
-            h2.section-headline
-              span(th:text="${user}? '使用者 '+${#strings.toUpperCase(user.username)}+' 歡迎您的蒞臨' : 'PetFriends 物資交換中心'")
+            span(th:text="${user}? '使用者 '+${#strings.toUpperCase(user.username)}+' 歡迎您的蒞臨' : 'PetFriends 物資交換中心'")
         .col-xs-4
       hr(style='position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
       img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
@@ -18,11 +17,11 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
             label(for='category') 分類
           #category.list-group
             a.list-group-item(th:href="@{/bookshelf(category='all')}", th:classappend="${activeAll}? 'active'") 全部
-            a.list-group-item(th:href="@{/searchByCategory(category='Management')}", th:classappend="${activeManagement}? 'active'") 玩具
-            a.list-group-item(th:href="@{/searchByCategory(category='Fiction')}", th:classappend="${activeFiction}? 'active'") 食物
-            a.list-group-item(th:href="@{/searchByCategory(category='Engineering')}", th:classappend="${activeEngineering}? 'active'") 清潔保養品
-            a.list-group-item(th:href="@{/searchByCategory(category='Programming')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
-            a.list-group-item(th:href="@{/searchByCategory(category='Arts & Literature')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
+            a.list-group-item(th:href="@{/searchByCategory(category='玩具')}", th:classappend="${activeManagement}? 'active'") 玩具
+            a.list-group-item(th:href="@{/searchByCategory(category='食物')}", th:classappend="${activeFiction}? 'active'") 食物
+            a.list-group-item(th:href="@{/searchByCategory(category='清潔保養品')}", th:classappend="${activeEngineering}? 'active'") 清潔保養品
+            a.list-group-item(th:href="@{/searchByCategory(category='日常消耗品')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
+            a.list-group-item(th:href="@{/searchByCategory(category='其他')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
         .col-xs-9
           div(th:if='${emptyList}')
             .alert.alert-info

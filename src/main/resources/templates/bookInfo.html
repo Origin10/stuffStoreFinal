@@ -12,14 +12,20 @@
         </ol>
       </div>
     </div>
+    <div class="row"> 
+      <div class="col-xs-12 text-center">
+        <h2 th:text="${user}? '使用者'+${#strings.toUpperCase(user.username)}+'的個人物資編輯' : '供應者物資編輯'"></h2>
+      </div>
+    </div>
     <div class="row">
+      <div class="col-xs-1"></div>
       <div class="col-xs-3">
         <div class="panel panel-default">
           <div class="panel-body"><img th:src="@{/imgs/book/}+${book.id}+'.png'" class="img-responsive center-block"/></div>
         </div>
       </div>
-      <div class="col-xs-9">
-        <h3 th:text="${book.title}"></h3>
+      <div style="font-size: 1.2em;" class="col-xs-6">
+        <h3 th:text="${book.title}" Style="color:rgb(86, 174, 134);"></h3>
         <div class="row">
           <div class="col-xs-6">
             <p><strong>製造商：</strong><span th:text="${book.author}"></span></p>
@@ -35,8 +41,20 @@
             <p><strong>運費：</strong><span th:text="${book.shippingWeight}"></span></p>
             <p><strong>公司價：</strong><span th:text="${book.listPrice}"></span></p>
             <p><strong>賣家價：</strong><span th:text="${book.ourPrice}"></span></p>
-            <p><strong>市價： </strong><span th:text="${book.inStockNumber}"></span></p>
+            <p><strong>庫存： </strong><span th:text="${book.inStockNumber}"></span></p>
             <p><strong>描述: </strong><span th:utext="${book.description}"></span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div style="position: relative; top: 60px; width: 100%; margin-top: 60px; padding:20px 0;" class="py-5 bg-theme text-center">
+      <div class="container">
+        <div class="row">
+          <div class="col-4 col-md-4"><a th:href="@{/book/bookList}" style="color:#fff"><i class="fa fa-5x fa-fw fa-arrow-left"></i></a></div>
+          <div class="col-4 col-md-4"><a th:href="@{/book/updateBook?id=}+${book.id}" style="color:#fff"><i class="fa fa-5x fa-fw fa-pencil"></i></a></div>
+          <div class="col-4 col-md-4">
+            <input hidden="hidden" name="id" th:value="${book.id}"/><a th:id="'oneBook-'+${book.id}" type="submit" value="delete" class="btn bg-theme btn-xs delete-one-book"><i style="color:darkred" class="fa fa-5x fa-times"></i></a>
           </div>
         </div>
       </div>

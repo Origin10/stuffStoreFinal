@@ -8,12 +8,11 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
       .row(style='margin-bottom: -100px;')
         .col-xs-8
           h2.section-headline
-            h2.section-headline
-              span(th:text="${user}? '使用者'+${#strings.toUpperCase(user.username)}+'您好' : '物資詳細'")
+            span(th:text="${user}? '使用者'+${#strings.toUpperCase(user.username)}+'您好' : '物資詳細'")
         .col-xs-4
       hr(style='position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
       img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
-      form(th:action='@{/shoppingCart/addItem}', method='post')
+      form(th:action='@{/shoppingCart/addItem}', method='post', style="font-size: 1.1em;")
         input(hidden='hidden', th:field='*{book.id}')
         .row(style='margin-top: 120px;')
           .col-xs-3
@@ -28,10 +27,10 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                 | 抱歉，庫存只剩：
                 span(th:text='${book.inStockNumber}')
                   
-            h3(th:text='${book.title}') 物資名稱
+            h3(th:text='${book.title}' , Style="color:rgb(86, 174, 134);") 物資名稱
             .row
               .col-xs-5
-                h5
+                p
                   strong 製造商：
                   span(th:text='${book.author}')
                 p
@@ -47,11 +46,8 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                   strong 分類： 
                   span(th:text='${book.category}')
                 p
-                  strong 單位重量：
-                    span(th:text='${book.format}')
-                    | :
-                  span(th:text='${book.numberOfPages}')
-                    |  重量
+                  strong 保存方式：
+                  span(th:text='${book.format}')
                 p
                   strong 相關認證字號： 
                   span(th:text='${book.isbn}')
@@ -65,28 +61,28 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                     .row
                       .col-xs-6
                         h4
-                          | 賣家價：
+                          | 補貼供應者(如運費)：
                           span(style='color:#db3208;')
                             | $
                             span(th:text='${book.ourPrice}')
                         p
-                          | 公司價： 
+                          | 市場： 
                           span(style='text-decoration: line-through')
                             | $
                             span(th:text='${book.listPrice}')
                         p
-                          | 你省下 $ 
+                          | 剩下 
                           span(th:text="${#numbers.formatDecimal((book.listPrice - book.ourPrice), 0, 'COMMA', 2, 'POINT' )}")
                         span 數量: 
                         select(name='qty')
                           option(th:each='qty : ${qtyList}', th:value='${qty}', th:text='${qty}')
                       .col-xs-6
-                        h4(th:if='*{book.inStockNumber>10}', style='color: green') 市價
+                        h4(th:if='*{book.inStockNumber>10}', style='color: green') 可供應
                         h4(th:if='*{book.inStockNumber<10 and book.inStockNumber>0}', style='color: green')
-                          | 只剩下 
+                          | 倉儲只剩下 
                           span(th:text='${book.inStockNumber}')  
-                          |  的庫存
-                        h4(th:if='*{book.inStockNumber==0}', style='color:darkred;') 無法訂購
+                          | 的數量
+                        h4(th:if='*{book.inStockNumber==0}', style='color:darkred;') 目前無法交換
                         button.btn.btn-warning(type='submit', style='color:black;border:1px solid black; padding: 10px 40px 10px 40px;') 加到交換手提藍
             hr
             p(th:utext='${book.description}')

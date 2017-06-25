@@ -47,7 +47,7 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                   div(style='margin-left:50px;')
                     a(th:href='@{/bookDetail?id=}+${cartItem.book.id}')
                       h4(th:text='${cartItem.book.title}')
-                    p(th:if='${cartItem.book.inStockNumber>10}', style='color: green;') 庫存
+                    p(th:if='${cartItem.book.inStockNumber>10}', style='color: green;') 庫存可供應
                     p(th:if='${cartItem.book.inStockNumber<10 and cartItem.book.inStockNumber>0}', style='color: green;')
                       | 庫存只剩下：
                       span(th:text='${cartItem.book.inStockNumber}')

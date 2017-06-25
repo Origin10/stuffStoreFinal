@@ -1,0 +1,138 @@
+//output:../index.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+  head(th:replace='common/header :: common-header')/
+  body
+    div(th:replace='common/header :: navbar')/
+    .container
+      div(th:replace='common/header :: searchStuff')/
+      div(th:replace='common/header :: icon-bar')/
+      hr
+      .row.banner
+        // carousel
+        .col-xs-8
+          .panel.panel-default(style='margin-top: 20px;')
+            .panel-body
+              #carousel-example-generic.carousel.slide(data-ride='carousel')
+                // Indicators
+                ol.carousel-indicators
+                  li.active(data-target='#carousel-example-generic', data-slide-to='0')
+                  li(data-target='#carousel-example-generic', data-slide-to='1')
+                  li(data-target='#carousel-example-generic', data-slide-to='2')
+                // Wrapper for slides
+                .carousel-inner(role='listbox')
+                  .item.active
+
+                    img(src='/imgs/hero-1.png', alt='...')
+                    .carousel-caption
+                      h4 狗狗是人類最好的朋友
+                      p
+                        | 讓我們一起和毛小孩共度屬於他們和我們最寶貴的時光吧！
+                  .item
+                    img(src='/imgs/hero-2.png', alt='...')
+                    .carousel-caption(style="color:black;")
+                      h4 你在看我嗎？你可以再靠近一點！
+                      p
+                        | 您的寵物也是像這樣充滿著好奇心，讓你總是離不開他們的生活嗎？
+                  .item
+                    img(src='/imgs/hero-3.png', alt='...')
+                    .carousel-caption
+                      h4 看看我，我不再孤單，我有毯毯
+                      p
+                        | 還記得這些小天兵，陪我們走過多少有笑有淚的日子，讓我們繼續陪伴著他們走下去吧！
+                // Controls
+                a.left.carousel-control(href='#carousel-example-generic', role='button', data-slide='prev')
+                  span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+                  span.sr-only Previous
+                a.right.carousel-control(href='#carousel-example-generic', role='button', data-slide='next')
+                  span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+                  span.sr-only Next
+        .col-xs-4
+          img.img-responsive(src='/imgs/pf2update2.png')
+      hr
+      .row
+        .col-xs-4
+          .panel.panel-default
+            .panel-body
+              a(th:href='@{/bookshelf}')
+                img.img-responsive(src='/imgs/bestseller.png')
+        .col-xs-4
+          div(clas='panel panel-default')
+            .panel-body
+              a(th:href='@{/hours}')
+                img.img-responsive(src='/imgs/hours.png')
+        .col-xs-4
+          div(clas='panel panel-default')
+            .panel-body
+              a(th:href='@{/faq}')
+                img.img-responsive(src='/imgs/faq.png')
+      div
+        .home-headline
+          span 熱銷商品
+        hr(style='margin-top: -15px;')
+      .row
+        #featured-books.carousel.slide(data-ride='carousel')
+          // Indicators
+          ol.carousel-indicators
+            li.active(data-target='#featured-books', data-slide-to='0')
+            li(data-target='#featured-books', data-slide-to='1')
+            li(data-target='#featured-books', data-slide-to='2')
+          // Wrapper for slides
+          .carousel-inner(role='listbox')
+            .item.active
+              img.img-responsive(src='/imgs/shelf.png')
+              .carousel-caption
+                .row
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+            .item
+              img.img-responsive(src='/imgs/shelf.png')
+              .carousel-caption
+                .row
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+            .item
+              img.img-responsive(src='/imgs/shelf.png')
+              .carousel-caption
+                .row
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+                  .col-xs-2
+                    img.img-responsive(src='/imgs/book1.png')
+          // Controls
+          a.left.carousel-control(href='##featured-books', role='button', data-slide='prev')
+            span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+            span.sr-only Previous
+          a.right.carousel-control(href='##featured-books', role='button', data-slide='next')
+            span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+            span.sr-only Next
+    // end of container
+    div(th:replace='common/header :: footer')/
+    div(th:replace='common/header :: body-bottom-scripts')/

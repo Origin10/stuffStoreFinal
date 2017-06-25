@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+  <head th:replace="common/header :: common-header"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css" rel="stylesheet"/>
+  <body>
+    <div th:replace="common/header :: navbar"/>
+    <div id="nav" class="container">
+      <div>
+        <ol class="breadcrumb">
+          <li><a th:href="@{/book/bookList}"><i aria-hidden="true" class="fa fa-long-arrow-left"></i>回上一頁</a></li>
+          <li><a th:href="@{/book/updateBook?id=}+${book.id}">編輯</a></li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-3">
+        <div class="panel panel-default">
+          <div class="panel-body"><img th:src="@{/imgs/book/}+${book.id}+'.png'" class="img-responsive center-block"/></div>
+        </div>
+      </div>
+      <div class="col-xs-9">
+        <h3 th:text="${book.title}"></h3>
+        <div class="row">
+          <div class="col-xs-6">
+            <p><strong>製造商：</strong><span th:text="${book.author}"></span></p>
+            <p><strong>經銷商：</strong><span th:text="${book.publisher}"></span></p>
+            <p><strong>製造日期：</strong><span th:text="${book.publicationDate}"></span></p>
+            <p><strong>產地：</strong><span th:text="${book.language}"></span></p>
+            <p><strong>分類：</strong><span th:text="${book.category}"></span></p>
+            <p><strong>單位重量：</strong><span th:text="${book.numberOfPages}"></span></p>
+          </div>
+          <div class="col-xs-6">
+            <p><strong>保存方式：</strong><span th:text="${book.format}"></span></p>
+            <p><strong>相關認證字號：</strong><span th:text="${book.isbn}"></span></p>
+            <p><strong>運費：</strong><span th:text="${book.shippingWeight}"></span></p>
+            <p><strong>公司價：</strong><span th:text="${book.listPrice}"></span></p>
+            <p><strong>賣家價：</strong><span th:text="${book.ourPrice}"></span></p>
+            <p><strong>市價： </strong><span th:text="${book.inStockNumber}"></span></p>
+            <p><strong>描述: </strong><span th:utext="${book.description}"></span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div th:replace="common/header :: body-bottom-scripts"/>
+  </body>
+</html>

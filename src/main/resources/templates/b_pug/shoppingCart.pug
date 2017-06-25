@@ -1,0 +1,76 @@
+//output:../shoppingCart.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+  head(th:replace='common/header :: common-header')/
+  body
+    div(th:replace='common/header :: navbar')/
+    .container
+      .row(style='margin-bottom: -100px;')
+        .col-xs-8
+          h2.section-headline
+            h2.section-headline
+              span(th:text="${user}? ${#strings.toUpperCase(user.username)} : '購物車明細'")
+        .col-xs-4
+          img.img-responsive(src='/imgs/logo.png')
+      hr(style='position: absolute; width:85%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
+      img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
+      .row(style='margin-top: 10px;')
+        .col-xs-12
+          .row
+            .col-xs-6.text-left
+              a.btn.btn-warning(th:href='@{/bookshelf}')
+                | 繼續選購
+            .col-xs-6.text-right
+              a.btn.btn-primary(th:href='@{/checkout(id=${shoppingCart.id})}') 結帳
+            br
+            .alert.alert-warning(th:if='${notEnoughStock}')
+              | 抱歉，您選購的商品目前庫存不足
+            .alert.alert-warning(th:if='${emptyCart}')
+              | 您購物籃裡的項目為空，請選購您所喜歡的項目
+            br
+            br
+            .row
+              .col-xs-8
+                h4(style='margin-left:70px;') 物資
+              .col-xs-2
+                h4 價格
+              .col-xs-2
+                h4 數量
+            // **************** display products in cart ****************
+            .row(th:each='cartItem : ${cartItemList}')
+              form(th:action='@{/shoppingCart/updateCartItem}', method='post')
+                hr
+                .col-xs-2
+                  a(th:href='@{bookDetail(id=${cartItem.book.id})}')
+                    img.img-responsive.shelf-book.center-block(style='width:70px;', th:src="#{adminPath}+@{/imgs/book/}+\
+                    ${cartItem.book.id}+'.png'")
+                .col-xs-6
+                  div(style='margin-left:50px;')
+                    a(th:href='@{/bookDetail?id=}+${cartItem.book.id}')
+                      h4(th:text='${cartItem.book.title}')
+                    p(th:if='${cartItem.book.inStockNumber>10}', style='color: green;') 庫存
+                    p(th:if='${cartItem.book.inStockNumber<10 and cartItem.book.inStockNumber>0}', style='color: green;')
+                      | 庫存只剩下：
+                      span(th:text='${cartItem.book.inStockNumber}')
+                    p(th:if='${cartItem.book.inStockNumber==0}', style='color: darkred;') 物資不能選購
+                    a(th:href='@{/shoppingCart/removeItem?id=}+${cartItem.id}') 刪除
+                .col-xs-2
+                  h5(style='color: #db3208; font-size: large;')
+                    | $
+                    span(th:text='${cartItem.book.ourPrice}', th:style="${cartItem.book.inStockNumber}==0? 'text-decoration: line-through' : ''")
+                .col-xs-2
+                  input(hidden='hidden', name='id', th:value='${cartItem.id}')
+                  input.form-control.cartItemQty(th:id='${cartItem.id}', th:name='qty', th:disabled='${cartItem.book.inStockNumber==0}', th:value='${cartItem.qty}')
+                  button.btn.btn-warning.btn-xs(style='display: none;', th:id="'update-item-'+${cartItem.id}", type='submit') 更新
+            .row
+              hr
+              h4.col-xs-12.text-right
+                strong(style='font-size: large;')
+                  | 總價 (
+                  span(th:text='${#lists.size(cartItemList)}')
+                  |  個項目):
+                span(style='color: #db3208; font-szie: large;')
+                  | $
+                  span(th:text='${shoppingCart.grandTotal}')
+    // end of container
+    div(th:replace='common/header :: footer')/
+    div(th:replace='common/header :: body-bottom-scripts')/

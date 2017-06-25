@@ -1,0 +1,23 @@
+//output:../badRequestPage.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+  head(th:replace='common/header :: common-header')/
+  body
+    div(th:replace='common/header :: navbar')/
+    .container
+        .row(style='margin-bottom: -100px;')
+          .col-xs-8
+            h2.section-headline
+              span 使用者資訊
+          .col-xs-4
+            img.img-responsive(src='/imgs/logo.png')
+        hr(style='position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
+        img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
+        .row(style='margin-top:10px')
+          .col-xs-9.col-xs-offset-3
+            h5
+              | 無效的路徑連結，請點擊 
+              a(th:href='@{/}') ＿這裡＿
+              | 返回本網站首頁
+    // end of container
+    div(th:replace='common/header :: footer')/
+    div(th:replace='common/header :: body-bottom-scripts')/

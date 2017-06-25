@@ -1,0 +1,155 @@
+//output:../common/header.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1999/xhtml', xmlns:sec='http://www.w3.org/1999/xhtml')
+  head(th:fragment='common-header')
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    title PetFriends
+    // Bootstrap core CSS
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/non-responsive.css', rel='stylesheet')
+    // data table
+    link(th:href='@{/css/jquery.dataTables.min.css}', rel='stylesheet')
+    link(th:href='@{/css/dataTables.bootstrap.min.css}', rel='stylesheet')
+    link(th:href='@{/css/font-awesome.min.css}', rel='stylesheet')
+    // Custom styles for this template
+    link(href='/css/style.min.css', rel='stylesheet')
+    //- link(rel='icon', href='/imgs/applie-touch-icon.png')
+  body
+    div(th:fragment='navbar')
+      nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+        .container
+          // Brand and toggle get grouped for better mobile display
+          .navbar-header
+            a.navbar-brand(th:href='@{/}') 
+            //(href='index.html')
+          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            ul.nav.navbar-nav.navbar-center
+              li
+                a(href='about.html') 餐廳
+              li
+                a(href='services.html') 市集
+              li
+                a(href='contact.html') 協尋
+              li
+                a(href='contact.html') 血庫
+            ul.nav.navbar-nav.navbar-right
+              li
+                a.fa.fa-3x.fa-fw.fa-cart-plus(th:href='@{/shoppingCart/cart}')
+              li
+                a.fa.fa-3x.fa-fw.fa-handshake-o(sec:authorize='isAnonymous()', th:href='@{/login}')
+              li
+                a(sec:authorize='isAuthenticated()', th:href='@{/myProfile}') 交換管理
+              li
+                a(sec:authorize='isAuthenticated()', th:href='@{/logout}') 登出後台管理   
+                                   
+    div(th:fragment="searchStuff")
+      .container
+        .row
+          .col-md-8.text-left
+            .btn-group(style="position:relative; top:75px")
+              a.btn.btn-primary.btn-lg(type="button", th:href='@{/book/add}') 新增物資
+              a.btn.btn-success.btn-lg(type="button", th:href='@{/book/bookList}') 檢視物資清單
+          .col-md-4.text-right
+            h2(style="padding-left:10px;") 物資搜尋
+            #search-input
+              .input-group(style="margin-left:75px; position:relative; left:20px;") 
+                form.navbar-form(th:action='@{/searchBook}', method='post')
+                  .form-group
+                    input.form-control.input-lg(type='text', name='keyword', placeholder='尋找物資',size="15",style="position:relative; right:10px;")
+                    span.input-group-btn
+                      button.btn.btn-info.btn-lg(type='submit')
+                        i.glyphicon.glyphicon-search  
+                        
+    div(th:fragment="icon-bar")
+      .text-center.bg-theme(style="margin:15px 0;")
+        .container
+          .row(style="padding-top: 10px;")
+            .col-md-2
+            .col-md-2
+              a(style="color:#fff", th:href='@{/bookshelf?category=all}') 
+                i.fa.fa-5x.fa-fw.fa-archive
+                .col-md-12
+                  p.lead 新進的物資
+            .col-md-2
+              a(style="color:#fff",th:href='@{/bookshelf}')
+                i.fa.fa-5x.fa-fw.fa-heart
+                .col-md-12
+                  p.lead 喜愛的物資
+            .col-md-2
+              a(style="color:#fff",th:href='@{/myProfile}') 
+                i.fa.fa-5x.fa-fw.fa-cart-plus
+                .col-md-12
+                  p.lead 交換手提藍
+            .col-md-2
+              a(style="color:#fff",th:href='@{/book/bookList}')
+                i.fa.fa-5x.fa-fw.fa-shopping-basket
+                .col-md-12
+                  p.lead 我的交換物資
+            .col-md-2                    
+                     
+    div(th:fragment='footer')
+      br
+      br
+      footer
+        .row
+          .col-xs-3.footerleft
+            .logofooter
+              a(th:href='@{/}') 
+                img.img-responsive(src='/imgs/pf2update2.png', style='width: 200px;')
+            p
+              | PetFriends. 
+              br
+              | 動物們的好朋友
+              | 						best.
+          .col-xs-3.paddingtop-bottom
+            h6.heading7 聯絡方式
+            ul.post
+              p
+                i.fa.fa-map-pin
+                |  123 XXX Ave
+                br
+                |  Boston MA, USA
+                | 							02112
+              p
+                i.fa.fa-phone
+                |  電話 (TW) : +886 999 9999 999
+              p
+                i.fa.fa-envelope
+                |  E-mail : info@petfriends.com
+          .col-xs-3.paddingtop-bottom
+            h6.heading7 相關連結
+            ul.footer-ul
+              li
+                a(th:href='@{/auction}')  交換中心雙方條約
+              li
+                a(href='#')  政策 &amp; 公開條款
+              li
+                a(th:href='@{/faq}')  常見問與答
+          .col-xs-3.paddingtop-bottom
+            h6.heading7 網站營業時間
+            .post
+              p 星期一 - 星期六: 9am - 11pm
+              p 星期天: 10am - 10pm
+      .copyright
+        .col-md-6
+          p © 2017 - All Rights Reserved
+        .col-md-6
+          ul.bottom_ul
+            li
+              a(href='#') 關於我們
+            li
+              a(href='#') 部落格
+            li
+              a(th:href='@{/faq}') 問與答
+            li
+              a(href='#') 聯絡我們
+            li
+              a(href='#') 網站地圖
+    div(th:fragment='body-bottom-scripts')
+      script(th:src='@{/js/jquery.min.js}')
+      script(th:src='@{/js/bootstrap.min.js}')
+      script(th:src='@{/js/bootbox.min.js}')
+      script(th:src='@{/js/scripts.js}')
+      // data table
+      script(th:src='@{/js/jquery.dataTables.min.js}')
+      script(th:src='@{/js/dataTables.bootstrap.min.js}')

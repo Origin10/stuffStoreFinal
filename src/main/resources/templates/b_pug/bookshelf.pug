@@ -1,0 +1,94 @@
+//output:../bookshelf.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+  head(th:replace='common/header :: common-header')/
+  body
+    div(th:replace='common/header :: navbar')/
+    .container
+      .row(style='margin-bottom: -100px;')
+        .col-xs-8
+          h2.section-headline
+            h2.section-headline
+              span(th:text="${user}? '使用者 '+${#strings.toUpperCase(user.username)}+' 歡迎您的蒞臨' : 'PetFriends 物資交換中心'")
+        .col-xs-4
+      hr(style='position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
+      img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
+      .row(style='margin-top: 60px;')
+        .col-xs-3
+          h3
+            label(for='category') 分類
+          #category.list-group
+            a.list-group-item(th:href="@{/bookshelf(category='all')}", th:classappend="${activeAll}? 'active'") 全部
+            a.list-group-item(th:href="@{/searchByCategory(category='Management')}", th:classappend="${activeManagement}? 'active'") 玩具
+            a.list-group-item(th:href="@{/searchByCategory(category='Fiction')}", th:classappend="${activeFiction}? 'active'") 食物
+            a.list-group-item(th:href="@{/searchByCategory(category='Engineering')}", th:classappend="${activeEngineering}? 'active'") 清潔保養品
+            a.list-group-item(th:href="@{/searchByCategory(category='Programming')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
+            a.list-group-item(th:href="@{/searchByCategory(category='Arts & Literature')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
+        .col-xs-9
+          div(th:if='${emptyList}')
+            .alert.alert-info
+              strong(style='font-style: italic;') 抱歉！沒有你搜尋的結果，可以留下您電子信箱，有相關物資上架時讓我們通知您。
+            .text-center
+              .alert.alert-info(th:if='${emailSent}')
+                | 已經寄了一封驗證信，麻煩至信箱開啟訂閱功能。
+              form(th:action='@{/newUser}', method='post')
+                .form-group
+                  span(style='color: green;', th:if='${emailExists}')
+                    | 感謝您的訂閱。
+                  input#email.input-sm(type='text', name='email',size='50px', placeholder="填寫電子信箱用來訂閱您想追蹤的項目。")
+                  button.btn.btn-success.bt(type='submit')
+                    | 通知我
+        
+              //- 
+              //- input(type="text",placeholder="輸入信箱...",width="35px")
+              //- button.btn.btn-success(type="submit") 通知我
+              //- p(style='color: #828282')
+              //-   | 所有的訊息都會寄到目前這個地址，該電子信箱不會被公開，只會用於相關網站資訊的傳遞。
+          table#bookList(border='0')
+            thead
+              tr
+                th
+            tbody
+              tr.book-item(data-th-each='book : ${bookList}')
+                td
+                  div(th:if='${book != null}')
+                    .row(style='margin-bottom: 50px;')
+                      .col-xs-3
+                        a(th:href='@{/bookDetail?id=}+${book.id}')
+                          img.img-responsive.shelf-book(th:src="@{/imgs/book/}+${book.id}+'.png'") 
+                          //- #{adminPath}+ 不能運作
+                      .col-xs-9
+                        a(th:href='@{/bookDetail?id=}+${book.id}')
+                          h4(th:text='${book.title}')
+                        span(th:text='${book.publicationDate}')
+                        p(th:text='${book.author}')
+                        a(th:href='@{/bookDetail?id=}+${book.id}')
+                          span(th:text='${#strings.capitalize(book.format)}')
+                        span(th:text='${book.numberOfPages}')
+                          span  頁數
+                        br
+                        a(th:href='@{/bookDetail?id=}+${book.id}')
+                          span(style='font-size: x-large; color: #db3208;')
+                            | $
+                            span(th:text="${#numbers.formatDecimal(book.ourPrice, 0 , 'COMMA', 2, 'POINT')}")
+                        span(style='text-decoration: line-through;')
+                          | $
+                          span(th:text="${#numbers.formatDecimal(book.listPrice, 0 , 'COMMA', 2, 'POINT')}")
+                        p(th:utext='${#strings.abbreviate(book.description, 1000)}')
+    // end of container
+    div(th:replace='common/header :: footer')/
+    div(th:replace='common/header :: body-bottom-scripts')/
+    script.
+      $(document).ready(function() {
+      $('#bookList').DataTable({
+      "lengthMenu":[[5,10,15,20,-1],[5,10,15,20,"All"]],
+      "ordering":false,
+      stateSave:true
+      });
+      $("#bookList").on('page.dt', function() {
+      $('html, body').animate({
+      scrollTop: $('#bookList').offset().top
+      }, 200);
+      });
+      });
+      
+      $('.alert').delay(3000).fadeOut();

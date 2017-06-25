@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+  <head th:replace="common/header :: common-header"/>
+  <body>
+    <div th:replace="common/header :: navbar"/>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 text-left">
+          <div style="position:relative; top:30px" class="btn-group"><a type="button" th:href="@{/book/add}" class="btn btn-primary">新增物資</a></div>
+          <div class="col-md-4 text-left"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="table-responsive">
+        <table id="bookListTable" class="table table-bordered table-hover table-striped">
+          <thead>
+            <tr>
+              <th>
+                <input th:id="selectAllBooks" type="checkbox"/>
+              </th>
+              <th>名稱</th>
+              <th>製造商</th>
+              <th>公司價</th>
+              <th>賣家價</th>
+              <th>公開或暫存</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-th-each="book : ${bookList}">
+              <td>
+                <input hidden="hidden" name="id" th:value="${book.id}"/>
+                <input th:id="'selected'+${book.id}" type="checkbox" class="checkboxBook"/>
+              </td>
+              <td><a th:href="@{/book/bookInfo(id=${book.id})}"><span th:text="${book.title}"></span></a></td>
+              <td th:text="${book.author}"></td>
+              <td th:text="${book.listPrice}"></td>
+              <td th:text="${book.ourPrice}"></td>
+              <td th:text="${book.active}"></td>
+              <td>
+                <input hidden="hidden" name="id" th:value="${book.id}"/>
+                <button th:id="'oneBook-'+${book.id}" type="submit" value="delete" class="btn btn-danger btn-xs delete-book"><span class="fa fa-times"></span>刪除</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button th:id="deleteSelected" class="btn btn-danger">刪除已選擇</button>
+    </div>
+    <div th:replace="common/header :: body-bottom-scripts"/>
+    <script>
+      $(document).ready(function() {
+      $("#bookListTable").DataTable({
+      "lengthMenu": [[5,10,15,20,-1],[5,10,15,20,"All"]],
+      "ordering": false,
+      stateSave: true
+      });
+      });
+    </script>
+  </body>
+</html>

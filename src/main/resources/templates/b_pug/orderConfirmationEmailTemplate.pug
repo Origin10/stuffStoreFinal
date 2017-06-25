@@ -1,0 +1,115 @@
+//output:../orderConfirmationEmailTemplate.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1999/xhtml')
+  head
+    // Bootstrap core CSS
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/non-responsive.css', rel='stylesheet')
+    link(href='/css/font-awesome.min.css', rel='stylesheet')
+    // Custom styles for this template
+    link(href='/css/style.css', rel='stylesheet')
+    style.
+      table {
+      border-collapse: collapse;
+      }
+      table, th, td {
+      border:1px solid black;}
+  body
+    p
+      | 親愛的 
+      span(th:text='${user.firstName}')
+      | ,
+    br
+    p
+      | 感謝您使用我們的物資交換平台，希望您在本平台上有份美好的使用經驗。
+    p
+      | 您的訂單號碼是： 
+      strong
+        | #
+        span(th:text='${order.id}')
+      | . 這是您的訂單明細：
+    h2
+      | 訂單明細號碼 #
+      span(th:text='${order.id}')
+    hr
+    table
+      tr
+        th 帳單明細
+        th 付款資訊
+        th 寄送地址
+      tr
+        td
+          span(th:text='${order.billingAddress.billingAddressName}')
+          br
+          span(th:text="${order.billingAddress.billingAddressStreet1}+' '+${order.billingAddress.billingAddressStreet2}")
+          br
+          span(th:text='${order.billingAddress.billingAddressCity}')
+          br
+          span(th:text='${order.billingAddress.billingAddressState}')
+          br
+          span(th:text='${order.billingAddress.billingAddressZipcode}')
+          br
+        td
+          span(th:text='${order.payment.holderName}')
+          br
+          span(th:text='${order.payment.type}')
+          br
+          span(th:text='${order.payment.cardNumber}')
+          br
+          span(th:text='${order.payment.expiryMonth}')
+          br
+          span(th:text='${order.payment.expiryYear}')
+          br
+        td
+          span(th:text='${order.shippingAddress.shippingAddressName}')
+          br
+          span(th:text="${order.shippingAddress.shippingAddressStreet1}+' '+${order.shippingAddress.shippingAddressStreet2}")
+          br
+          span(th:text='${order.shippingAddress.shippingAddressCity}')
+          br
+          span(th:text='${order.shippingAddress.shippingAddressState}')
+          br
+          span(th:text='${order.shippingAddress.shippingAddressZipcode}')
+          br
+    h3
+      strong 訂單總計
+    table
+      thead
+        tr
+          td
+            strong 項目名稱
+          td.text-center
+            strong 項目價格
+          td.text-center
+            strong 項目數量
+          td.text-right
+            strong 總合
+      tbody
+        tr(th:each='cartItem : ${cartItemList}')
+          td
+            span(data-th-text='${cartItem.book.title}')
+          td.text-center(data-th-text='${cartItem.book.ourPrice}')
+          td.text-center(data-th-text='${cartItem.qty}')
+          td.text-right(data-th-text='${cartItem.subtotal}')
+        tr
+          td.highrow
+          td.highrow
+          td.highrow.text-center
+            strong 小計
+          td.highrow.text-right(data-th-text='${order.orderTotal}')
+        tr
+          td.emptyrow
+          td.emptyrow
+          td.emptyrow.text-center
+            strong 稅
+          td.emptyrow.text-right(data-th-text='${#numbers.formatDecimal(order.orderTotal*0.06,0,2)}')
+        tr
+          td.emptyrow
+            i.fa.fa-barcode.iconbig
+          td.emptyrow
+          td.emptyrow.text-center
+            strong 總計
+          td.emptyrow.text-right(th:with='total=${order.orderTotal+order.orderTotal*0.06}', data-th-text='${#numbers.formatDecimal(total, 0, 2)}')
+    br
+    p Best,
+    p PetFriends
+    p Since 1923

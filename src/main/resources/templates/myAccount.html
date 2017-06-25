@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+  <head th:replace="common/header :: common-header"/>
+  <body>
+    <div th:replace="common/header :: navbar"/>
+    <div class="container">
+      <div style="margin-bottom: -100px;" class="row">
+        <div class="col-xs-8">
+          <h2 class="section-headline"><span>賣場登入</span></h2>
+        </div>
+        <div class="col-xs-4"><img src="/imgs/pf2update2.png" class="img-responsive"/></div>
+      </div>
+      <hr style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;"/><img src="/imgs/wood.png" style="margin-top: -75px;" class="img-responsive"/>
+      <div style="margin-top: 60px;" class="row">
+        <div class="col-xs-9 col-xs-offset-3">
+          <!-- Nav tabs-->
+          <ul class="nav nav-tabs">
+            <li th:classappend="${classActiveNewAccount}? 'active'"><a href="#tab-1" data-toggle="tab"><span style="color: red;">申請一個賣家帳號</span></a></li>
+            <li th:classappend="${classActiveLogin}? 'active'"><a href="#tab-2" data-toggle="tab"><span style="color: red;">登入</span></a></li>
+            <li th:classappend="${classActiveForgetPassword}? 'active'"><a href="#tab-3" data-toggle="tab"><span style="color: red;">忘記密碼</span></a></li>
+          </ul>
+          <!-- Tab panels-->
+          <div class="tab-content">
+            <!-- create new user pane-->
+            <div id="tab-1" th:classappend="${classActiveNewAccount}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <div th:if="${emailSent}" class="alert alert-info">已經寄了一封驗證信，到您剛剛註冊email，麻煩您至信箱更改網站給您的預設密碼。</div>
+                    <form th:action="@{/newUser}" method="post">
+                      <div class="form-group">
+                        <label for="newUsername">* Username: </label><span style="color: red;" th:if="${usernameExists}">使用者帳號已存在，麻煩你換一個帳號試試。</span>
+                        <input id="newUsername" required="required" type="text" name="username" class="form-control"/>
+                        <p style="color: #828282">在這裡填入您的帳號</p>
+                      </div>
+                      <div class="form-group">
+                        <label for="email">* 電子信箱: </label><span style="color: red;" th:if="${emailExists}">使用者信箱已存在，麻煩你換一個信箱試試，或使用忘記密碼。</span>
+                        <input id="email" required="required" type="text" name="email" class="form-control"/>
+                        <p style="color: #828282">所有的訊息都會寄到目前這個地址，該電子信箱不會被公開，只會用於接收您的新密碼或其他相關網站資訊。</p>
+                      </div>
+                      <button type="submit" class="btn btn-primary">創建一個新的賣場帳號</button>
+                      <button type="#" class="btn btn-success">開通原本PetFriends的社群帳號</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- log in-->
+            <div id="tab-2" th:classappend="${classActiveLogin}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <div th:if="${param.error != null}" style="color:red;">不正確的帳號或密碼</div>
+                    <form th:action="@{/login}" method="post">
+                      <div class="form-group">
+                        <label for="username">* 使用者帳號：</label>
+                        <input id="username" required="required" type="text" name="username" class="form-control"/>
+                        <p style="color: #828282">請在這裡輸入使用者帳號。</p>
+                      </div>
+                      <div class="form-group">
+                        <label for="password">* 使用者密碼: </label>
+                        <input id="password" required="required" type="password" name="password" class="form-control"/>
+                        <p style="color: #828282"></p>
+                      </div>
+                      <button type="submit" class="btn btn-primary">登入</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- forget password-->
+            <div id="tab-3" th:classappend="${classActiveForgetPassword}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <div th:if="${emailNotExist}" class="alert alert-danger">電子信箱不存在</div>
+                    <div th:if="${forgetPasswordEmailSent}" class="alert alert-success">重設密碼的Email已寄送到您的信箱</div>
+                    <form th:action="@{/forgetPassword}" method="post">
+                      <div class="form-group">
+                        <label for="recoverEmail">* 您註冊時填的電子信箱: </label>
+                        <input id="recoverEmail" required="required" type="text" name="email" class="form-control"/>
+                        <p style="color: #828282">在這裡輸入您的電子信箱</p>
+                      </div>
+                      <button type="submit" class="btn btn-primary">確認</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of container-->
+    <div th:replace="common/header :: footer"/>
+    <div th:replace="common/header :: body-bottom-scripts"/>
+  </body>
+</html>

@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+  <head th:replace="common/header :: common-header"/>
+  <body>
+    <div th:replace="common/header :: navbar"/>
+    <div class="container">
+      <div style="margin-bottom: -100px;" class="row">
+        <div class="col-xs-8">
+          <h2 class="section-headline">
+            <h2 class="section-headline"><span th:text="${#strings.toUpperCase(user.username)}"></span></h2>
+          </h2>
+        </div>
+        <div class="col-xs-4"><img src="/imgs/logo.png" class="img-responsive"/></div>
+      </div>
+      <hr style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;"/><img src="/imgs/wood.png" style="margin-top: -75px;" class="img-responsive"/>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 text-left">
+            <div style="position:relative; top:75px" class="btn-group"><a type="button" th:href="@{/book/add}" class="btn btn-primary btn-lg">新增物資</a><a type="button" th:href="@{/book/bookList}" class="btn btn-success btn-lg">檢視物資清單</a></div>
+          </div>
+          <div class="col-md-4 text-right"></div>
+        </div>
+      </div>
+      <div style="margin-top: 60px;" class="row">
+        <div class="col-xs-9 col-xs-offset-3">
+          <!-- Nav tabs-->
+          <ul class="nav nav-tabs">
+            <li th:classappend="${classActiveEdit}? 'active'"><a href="#tab-1" data-toggle="tab"><span style="color: red;">編輯</span></a></li>
+            <li th:classappend="${classActiveOrders}? 'active'"><a href="#tab-2" data-toggle="tab"><span style="color: red;">訂單</span></a></li>
+            <li th:classappend="${classActiveBilling}? 'active'"><a href="#tab-3" data-toggle="tab"><span style="color: red;">信用卡</span></a></li>
+            <li th:classappend="${classActiveShipping}? 'active'"><a href="#tab-4" data-toggle="tab"><span style="color: red;">寄送地址</span></a></li>
+          </ul>
+          <!-- Tab panels-->
+          <div class="tab-content">
+            <!-- Edit user information-->
+            <div id="tab-1" th:classappend="${classActiveEdit}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <div th:if="${incorrectPassword}" class="alert alert-danger"><strong>不正確的帳號或密碼！請輸入正確的帳號或密碼。</strong></div>
+                    <div th:if="${updateSuccess}" class="alert alert-succss"><strong>新增成功!</strong></div>
+                    <form th:action="@{/updateUserInfo}" method="post">
+                      <input type="hidden" name="id" th:value="${user.id}"/>
+                      <div th:if="${updateUserInfo}" class="bg-info">使用者資訊已更新。</div>
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-xs-6">
+                            <label for="firstName">名</label>
+                            <input id="firstName" type="text" name="firstName" th:value="${user.firstName}" class="form-control"/>
+                          </div>
+                          <div class="col-xs-6">
+                            <label for="lastName">姓氏</label>
+                            <input id="lastName" type="text" name="lastName" th:value="${user.lastName}" class="form-control"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="userName">使用者帳號</label> ' 
+                        <input id="userName" type="text" name="username" th:value="${user.username}" class="form-control"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="currentPassword">目前的密碼</label> ' 
+                        <input id="currentPassword" type="password" name="password" th:value="${currentPassword}" class="form-control"/>
+                      </div>
+                      <p style="color: #828282">輸入你目前的密碼來更新你最新的密碼</p>
+                      <div class="form-group">
+                        <label for="email">* 電子信箱</label> ' 
+                        <input id="email" type="text" name="email" th:value="${user.email}" class="form-control"/>
+                      </div>
+                      <p style="color: #828282">所有的訊息都會寄到目前這個地址，該電子信箱不會被公開，只會用於接收您的新密碼或其他相關網站資訊。</p>
+                      <div class="form-group">
+                        <label for="txtNewPassword">密碼</label><span id="checkPasswordMatch" style="color: red;"></span>
+                        <input id="txtNewPassword" type="password" name="newPassword" class="form-control"/>
+                      </div>
+                      <div class="form-group">
+                        <label for="txtConfirmPassword">重複密碼</label>
+                        <input id="txtConfirmPassword" type="password" class="form-control"/>
+                      </div>
+                      <p style="color: #828282">輸入重複的密碼，以確定密碼欄位輸入正確</p>
+                      <button id="updateUserInfoButton" type="submit" class="btn btn-primary">保存</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Order Information-->
+            <div id="tab-2" th:classappend="${classActiveOrders}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <table class="table table-sm table-inverse">
+                      <thead>
+                        <tr>
+                          <th>訂單訊息</th>
+                          <th>訂單編號</th>
+                          <th>總價</th>
+                          <th>狀態</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="order : ${orderList}">
+                          <td><a th:href="@{/orderDetail(id=${order.id})}"><span th:text="${order.orderDate}"></span></a></td>
+                          <td data-th-text="${order.id}"></td>
+                          <td data-th-text="${order.orderTotal}"></td>
+                          <td data-th-text="${order.orderStatus}"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div th:if="${displayOrderDetail}">
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <div class="text-center">
+                            <h2>訂單詳細編號 #<span th:text="${order.id}"></span></h2>
+                          </div>
+                          <hr/>
+                          <div class="row">
+                            <div class="col-xs-4">
+                              <div class="panel panel-default height">
+                                <div class="panel-heading"><strong>帳單編號</strong></div>
+                                <div class="panel-body"><span th:text="${order.billingAddress.billingAddressName}"></span><br/><span th:text="${order.billingAddress.billingAddressStreet1}+' '+${order.billingAddress.billingAddressStreet2}"></span><br/><span th:text="${order.billingAddress.billingAddressCity}"></span><br/><span th:text="${order.billingAddress.billingAddressState}"></span><br/><span th:text="${order.billingAddress.billingAddressZipcode}"></span><br/></div>
+                              </div>
+                            </div>
+                            <div class="col-xs-4">
+                              <div class="panel panel-default height">
+                                <div class="panel-heading"><strong>付款資訊</strong></div>
+                                <div class="panel-body"><span th:text="${order.payment.holderName}">持卡人姓名</span><br/><span th:text="${order.payment.cardNumber}">卡片編號</span><br/><span>到期日：</span><span th:text="${order.payment.expiryMonth}"></span>/<span th:text="${order.payment.expiryYear}"></span><br/></div>
+                              </div>
+                            </div>
+                            <div class="col-xs-4">
+                              <div class="panel panel-default height">
+                                <div class="panel-heading"><strong>帳單寄送細目：</strong></div>
+                                <div class="panel-body"><span th:text="${order.shippingAddress.shippingAddressName}"></span><br/><span th:text="${order.shippingAddress.shippingAddressStreet1}+' '+${order.shippingAddress.shippingAddressStreet2}"></span><br/><span th:text="${order.shippingAddress.shippingAddressCity}"></span><br/><span th:text="${order.shippingAddress.shippingAddressState}"></span><br/><span th:text="${order.shippingAddress.shippingAddressZipcode}"></span><br/></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="panel-heading">
+                            <h3 class="text-center"><strong>訂單總和</strong></h3>
+                          </div>
+                          <div class="panel-body">
+                            <div class="table-responsive">
+                              <table class="table table-condensed">
+                                <thead>
+                                  <tr>
+                                    <td><strong>項目名稱</strong></td>
+                                    <td class="text-center"><strong>項目價錢</strong></td>
+                                    <td class="text-center"><strong>項目數量</strong></td>
+                                    <td class="text-right"><strong>總合</strong></td>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr th:each="cartItem : ${cartItemList}">
+                                    <td data-th-text="${cartItem.book.title}"></td>
+                                    <td data-th-text="${cartItem.book.ourPrice}" class="text-center"></td>
+                                    <td data-th-text="${cartItem.qty}" class="text-center"></td>
+                                    <td data-th-text="${cartItem.subtotal}" class="text-center"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
+                                    <td class="highrow text-center"><strong>小計</strong></td>
+                                    <td data-th-text="${order.orderTotal}" class="highrow text-right"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-center"><strong>稅</strong></td>
+                                    <td data-th-text="${#numbers.formatDecimal(order.orderTotal*0.06,0,2)}" class="emptyrow text-right"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="emptyrow"><i class="fa fa-barcode iconbig"></i></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-center"><strong>總計</strong></td>
+                                    <td th:with="total=${order.orderTotal+order.orderTotal*0.06}" data-th-text="${#numbers.formatDecimal(total, 0, 2)}" class="emptyrow text-right"></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Billing Information-->
+            <div id="tab-3" th:classappend="${classActiveBilling}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item active"><a th:href="@{/listOfCreditCards}" th:style="${listOfCreditCards}? 'color:red'">信用卡列表</a></li>
+                      <li class="breadcrumb-item active"><a th:href="@{/addNewCreditCard}" th:style="${addNewCreditCard}? 'color:red'">添加或修改信用卡</a></li>
+                    </ol>
+                    <div th:if="${listOfCreditCards}">
+                      <form th:action="@{/setDefaultPayment}" method="post">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>預設付款</th>
+                              <th>信用卡</th>
+                              <th>操作</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr th:each="userPayment : ${userPaymentList}">
+                              <td>
+                                <input type="radio" name="defaultUserPaymentId" th:value="${userPayment.id}" th:checked="${userPayment.defaultPayment}"/>
+                              </td>
+                              <td th:text="${userPayment.cardName}"></td>
+                              <td><a th:href="@{/updateCreditCard(id=${userPayment.id})}"><i class="fa fa-pencil"></i></a><a th:href="@{/removeCreditCard(id=${userPayment.id})}"><i class="fa fa-times"></i></a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">儲存</button>
+                      </form>
+                    </div>
+                    <div th:if="${addNewCreditCard}">
+                      <form th:action="@{addNewCreditCard}" method="post">
+                        <div th:if="${updateUserPaymentInfo}" class="bg-info">使用者資訊已更新。</div>
+                        <input hidden="hidden" name="id" th:value="${userPayment.id}"/>
+                        <div class="form-group">
+                          <h5>* 幫你的這張卡取名字：</h5>
+                          <input id="cardName" type="text" placeholder="Card Name" th:name="cardName" required="required" th:value="${userPayment.cardName}" class="form-control"/>
+                        </div>
+                        <!-- Billing Address-->
+                        <hr/>
+                        <div class="form-group">
+                          <h4>帳單地址</h4>
+                        </div>
+                        <div class="form-group">
+                          <label for="billingName">* 收帳單者姓名</label>
+                          <input id="billingName" type="text" placeholder="Receiver Name" th:name="userBillingName" required="required" th:value="${memBilling.userBillingName}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                          <label for="billingAddress">* 帳單地址</label>
+                          <input id="billingAddress" type="text" placeholder="Street Address 1" th:name="userBillingStreet1" required="required" th:value="${memBilling.userBillingStreet1}" class="form-control"/>
+                          <input id="billingAddress" type="text" placeholder="Street Address 2" th:name="userBillingStreet2" th:value="${memBilling.userBillingStreet2}" class="form-control"/>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-4">
+                            <div class="form-group">
+                              <label for="billingCity">* 城市</label>
+                              <input id="billingCity" type="text" placeholder="Billing city" th:name="userBillingCity" required="required" th:value="${memBilling.userBillingCity}" class="form-control"/>
+                            </div>
+                          </div>
+                          <div class="col-xs-4">
+                            <div class="form-group">
+                              <label for="billingState">* 國家</label>
+                              <select id="billingState" th:name="userBillingState" th:value="${memBilling.userBillingState}" required="required" class="form-control">
+                                <option value="" disabled="disabled">請選一個選項</option>
+                                <option th:each="state : ${stateList}" th:text="${state}" th:selected="(${memBilling.userBillingState}==${state})"></option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xs-4">
+                            <div class="form-group">
+                              <label for="billingZipcode">* 郵遞區號</label>
+                              <input id="billingZipcode" type="text" placeholder="Billing Zipcode" th:name="userBillingZipcode" required="required" th:value="${memBilling.userBillingZipcode}" class="form-control"/>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Credit Card Information-->
+                        <hr/>
+                        <div class="form-group">
+                          <h4>信用卡訊息</h4>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12"><img src="/imgs/creditcard.png" class="img-responsive"/><br/>
+                            <div class="form-group">
+                              <label for="cardType">* 選擇卡片類型:</label>
+                              <select id="cardType" th:name="type" th:value="${userPayment.type}" class="form-control">
+                                <option value="visa">Visa</option>
+                                <option value="mastercard">Mastercard</option>
+                                <option value="discover">Discover</option>
+                                <option value="amex">美國運通</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                              <label for="cardHolder">* 持卡人姓名:</label>
+                              <input id="cardHolder" type="text" required="required" placeholder="Card Holder Name" th:name="holderName" th:value="${userPayment.holderName}" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                              <label for="cardNumber">* 信用卡卡號:</label>
+                              <div class="input-group">
+                                <input id="cardNumber" type="tel" required="required" placeholder="Valid Card Number" th:name="cardNumber" th:value="${userPayment.cardNumber}" class="form-control"/><span class="input-group-addon"><i aria-hidden="true" class="fa fa-credit-card"></i></span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-7">
+                            <div class="form-group">
+                              <label>* 到期日期</label>
+                              <div class="row">
+                                <div class="col-xs-6">
+                                  <select name="expiryMonth" required="required" th:value="${userPayment.expiryMonth}" class="form-control">
+                                    <option disabled="disabled">-- 月份 --</option>
+                                    <option value="01">Jan (01)</option>
+                                    <option value="02">Feb (02)</option>
+                                    <option value="03">Mar (03)</option>
+                                    <option value="04">Apr (04)</option>
+                                    <option value="05">May (05)</option>
+                                    <option value="06">June (06)</option>
+                                    <option value="07">July (07)</option>
+                                    <option value="08">Aug (08)</option>
+                                    <option value="09">Sep (09)</option>
+                                    <option value="10">Oct (10)</option>
+                                    <option value="11">Nov (11)</option>
+                                    <option value="12">Dec (12)</option>
+                                  </select>
+                                </div>
+                                <div class="col-xs-6">
+                                  <select name="expiryYear" th:value="${userPayment.expiryYear}" class="form-control">
+                                    <option disabled="disabled">-- 年 --</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="19">2019</option>
+                                    <option value="20">2020</option>
+                                    <option value="21">2021</option>
+                                    <option value="22">2022</option>
+                                    <option value="23">2023</option>
+                                    <option value="23">2024</option>
+                                    <option value="23">2025</option>
+                                    <option value="23">2026</option>
+                                    <option value="23">2027</option>
+                                    <option value="23">2028</option>
+                                    <option value="23">2029</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-xs-5">
+                            <div class="form-group">
+                              <label for="cardCVC">CV Code</label>
+                              <input id="cardCVC" type="tel" name="cvc" placeholder="CVC" th:name="cvc" th:value="${userPayment.cvc}" class="form-control"/>
+                            </div>
+                          </div>
+                        </div>
+                        <hr/>
+                        <button type="submit" class="btn btn-primary btn-lg">儲存</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Shipping Information-->
+            <div id="tab-4" th:classappend="${classActiveShipping}? 'in active'" class="tab-pane fade">
+              <div class="panel-group">
+                <div style="border: none;" class="panel panel-default">
+                  <div style="background-color: #ededed; margin-top: 20px;" class="panel-body">
+                    <ol class="breadcrumb">
+                      <li class="breadcrumb-item active"><a th:href="@{/listOfShippingAddresses}" th:style="${listOfShippingAddresses}? 'color:red'">運送地址列表</a></li>
+                      <li class="breadcrumb-item active"><a th:href="@{/addNewShippingAddress}" th:style="${addNewShippingAddress}? 'color:red'">新增或更新運送地址</a></li>
+                    </ol>
+                    <div th:if="${listOfShippingAddresses}">
+                      <form th:action="@{/setDefaultShippingAddress}" method="post">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>預設運送地址</th>
+                              <th>運送地址</th>
+                              <th>操作</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr th:each="memShipping : ${memShippingList}">
+                              <td>
+                                <input type="radio" name="defaultShippingAddressId" th:value="${memShipping.id}" th:checked="${memShipping.userShippingDefault}"/><span>預設</span>
+                              </td>
+                              <td th:text="${memShipping.userShippingStreet1}+', '+                              ${memShipping.userShippingCity}+', '+${memShipping.userShippingState}"></td>
+                              <td><a th:href="@{/updateUserShipping(id=${memShipping.id})}"><i class="fa fa-pencil"></i></a><a th:href="@{/removeUserShipping(id=${memShipping.id})}"><i class="fa fa-times"></i></a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">儲存</button>
+                      </form>
+                    </div>
+                    <div th:if="${addNewShippingAddress}">
+                      <form th:action="@{/addNewShippingAddress}" method="post">
+                        <div th:if="${updateUserShippingInfo}" class="bg-info">使用者資訊已更新。</div>
+                        <input hidden="hidden" name="id" th:value="${memShipping.id}"/>
+                        <!-- Shipping Address-->
+                        <hr/>
+                        <div class="form-group">
+                          <h4>收貨地址</h4>
+                        </div>
+                        <div class="form-group">
+                          <label for="shippingName">* 收貨者姓名</label>
+                          <input id="shippingName" type="text" placeholder="Receiver Name" th:name="userShippingName" required="required" th:value="${memShipping.userShippingName}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                          <label for="shippingAddress">* 收貨地址</label>
+                          <input id="shippingAddress" type="text" placeholder="Street Address 1" th:name="userShippingStreet1" required="required" th:value="${memShipping.userShippingStreet1}" class="form-control"/>
+                          <input type="text" placeholder="Street Address 2" th:name="userShppingStreet2" th:value="${memShipping.userShippingStreet2}" class="form-control"/>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-4">
+                            <div class="form-group">
+                              <label for="shippingCity">* 城市</label>
+                              <input id="shippingCity" type="text" placeholder="Shipping City" th:name="userShippingCity" required="required" th:value="${memShipping.userShippingCity}" class="form-control"/>
+                            </div>
+                          </div>
+                          <div class="col-xs-4">
+                            <div class="form-group">
+                              <label for="shippingState">* 國家</label>
+                              <select id="shippingState" th:name="userShippingState" th:value="${memShipping.userShippingState}" required="required" class="form-control">
+                                <option value="" disabled="disabled">
+                                  Please
+                                  select an option
+                                </option>
+                                <option th:each="state : ${stateList}" th:text="${state}" th:selected="(${memShipping.userShippingState}==${state})"></option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-xs-4">
+                            <div class="form-group">
+                              <label for="shippingZipcode">* 郵遞區號</label>
+                              <input id="shippingZipcode" type="text" placeholder="Shipping Zipcode" th:name="userShippingZipcode" required="required" th:value="${memShipping.userShippingZipcode}" class="form-control"/>
+                            </div>
+                          </div>
+                        </div>
+                        <hr/>
+                        <button type="submit" class="btn btn-primary btn-lg">儲存</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end of container-->
+    <div th:replace="common/header :: footer"/>
+    <div th:replace="common/header :: body-bottom-scripts"/>
+  </body>
+</html>

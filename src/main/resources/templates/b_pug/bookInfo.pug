@@ -1,0 +1,66 @@
+//output:../bookInfo.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+    head(th:replace='common/header :: common-header')/
+    link(href='https://cdnjs.cloudflare.com/ajax/libs/aos/2.1.1/aos.css', rel='stylesheet')
+    body
+        div(th:replace='common/header :: navbar')/
+        #nav.container
+            div
+                ol.breadcrumb
+                    li
+                        a(th:href='@{/book/bookList}')
+                            i.fa.fa-long-arrow-left(aria-hidden='true')
+                            | 回上一頁
+                    li
+                        a(th:href='@{/book/updateBook?id=}+${book.id}') 編輯
+          .row
+            .col-xs-3
+                .panel.panel-default
+                    .panel-body
+                        img.img-responsive.center-block(th:src="@{/imgs/book/}+${book.id}+'.png'")
+            .col-xs-9
+                h3(th:text='${book.title}')
+                .row
+                    .col-xs-6
+                        p
+                            strong 製造商：
+                            span(th:text='${book.author}')
+                        p
+                            strong 經銷商：
+                            span(th:text='${book.publisher}')
+                        p
+                            strong 製造日期：
+                            span(th:text='${book.publicationDate}')
+                        p
+                            strong 產地：
+                            span(th:text='${book.language}')
+                        p
+                            strong 分類：
+                            span(th:text='${book.category}')
+                        p
+                            strong 單位重量：
+                            span(th:text='${book.numberOfPages}')
+                    .col-xs-6
+                        p
+                            strong 保存方式：
+                            span(th:text='${book.format}')
+                        p
+                            strong 相關認證字號：
+                            span(th:text='${book.isbn}')
+                        p
+                            strong 運費：
+                            span(th:text='${book.shippingWeight}')
+                        p
+                            strong 公司價：
+                            span(th:text='${book.listPrice}')
+                        p
+                            strong 賣家價：
+                            span(th:text='${book.ourPrice}')
+                        p
+                            strong 市價： 
+                            span(th:text='${book.inStockNumber}')
+                        p
+                            strong 描述: 
+                            span(th:utext='${book.description}')
+                              
+        div(th:replace='common/header :: body-bottom-scripts')/

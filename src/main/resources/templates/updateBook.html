@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+  <head th:replace="common/header :: common-header"/>
+  <body>
+    <div th:replace="common/header :: navbar"/>
+    <div class="container">
+      <div class="row">
+        <form th:action="@{/book/updateBook}" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <fieldset>
+            <legend class="center-block">更新物資資訊<span style="font-size: small">
+                * 這是一個
+                需要填入的欄位</span></legend>
+            <input hidden="hidden" name="id" th:value="${book.id}"/>
+            <!-- title-->
+            <div class="form-group">
+              <label for="title" class="col-md-2 control-label">* 名稱</label>
+              <div class="col-md-8">
+                <input id="title" type="text" name="title" th:value="${book.title}" required="required" placeholder="Title" class="form-control"/><span class="help-block">物資名稱</span>
+              </div>
+            </div>
+            <!-- author-->
+            <div class="form-group">
+              <label for="author" class="col-md-2 control-label">
+                *
+                製造商
+              </label>
+              <div class="col-md-8">
+                <input id="author" type="text" name="author" th:value="${book.author}" required="required" placeholder="Author" class="form-control"/><span class="help-block">
+                  物資
+                  的製造商</span>
+              </div>
+            </div>
+            <!-- publisher-->
+            <div class="form-group">
+              <label for="publisher" class="col-md-2 control-label">經銷商</label>
+              <div class="col-md-8">
+                <input id="publisher" type="text" name="publisher" th:value="${book.publisher}" placeholder="Publisher" class="form-control"/><span class="help-block">
+                  物資
+                  的經銷商</span>
+              </div>
+            </div>
+            <!-- publication date-->
+            <div class="form-group">
+              <label for="publicationDate" class="col-md-2 control-label">製造日期</label>
+              <div class="col-md-8">
+                <input id="publicationDate" type="date" name="publicationDate" th:value="${book.publicationDate}" placeholder="ublication Date" class="form-control"/><span class="help-block">物資的製造日期</span>
+              </div>
+            </div>
+            <!-- language-->
+            <div class="form-group">
+              <label for="language" class="col-md-2 control-label">產地</label>
+              <div class="col-md-8">
+                <select id="language" th:value="${book.language}" name="language" class="form-control">
+                  <option value="english">國內</option>
+                  <option value="spanish">國外</option>
+                </select>
+              </div>
+            </div>
+            <!-- category-->
+            <div class="form-group">
+              <label for="category" class="col-md-2 control-label">
+                *
+                分類
+              </label>
+              <div class="col-md-8">
+                <select id="category" th:value="${book.category}" name="category" class="form-control">
+                  <option value="" selected="selected" disabled="disabled">請選擇一項分類</option>
+                  <option value="Management" th:selected="(${book.category}=='Management')">玩具</option>
+                  <option value="Fiction" th:selected="(${book.category}=='Fiction')">食物</option>
+                  <option value="Engineering" th:selected="(${book.category}=='Engineering')">保養品</option>
+                  <option value="Programming" th:selected="(${book.category}=='Programming')">日常消耗品</option>
+                  <option value="Arts &amp;amp; Literature" th:selected="(${book.category}=='Arts &amp;amp; Literature')">其他</option>
+                </select>
+              </div>
+            </div>
+            <!-- pages-->
+            <div class="form-group">
+              <label for="pageNumber" class="col-md-2 control-label">單位重量</label>
+              <div class="col-md-8">
+                <input id="pageNumber" type="number" name="numberOfPages" th:value="${book.numberOfPages}" placeholder="Page Number" class="form-control"/><span class="help-block">物資的重量</span>
+              </div>
+            </div>
+            <!-- format-->
+            <div class="form-group">
+              <label for="format" class="col-md-2 control-label">保存方式</label>
+              <div class="col-md-8">
+                <select id="format" th:value="${book.format}" name="format" class="form-control">
+                  <option value="paperback">常溫</option>
+                  <option value="hardcover">冷藏</option>
+                </select>
+              </div>
+            </div>
+            <!-- isbn-->
+            <div class="form-group">
+              <label for="isbn" class="col-md-2 control-label">相關認證字號</label>
+              <div class="col-md-8">
+                <input id="isbn" type="text" name="isbn" th:value="${book.isbn}" placeholder="ISBN" class="form-control"/><span class="help-block">(食品)寵物食品認證字號</span>
+              </div>
+            </div>
+            <!-- shipping weight-->
+            <div class="form-group">
+              <label for="shippingWeight" class="col-md-2 control-label">運費</label>
+              <div class="col-md-8">
+                <div class="input-group">
+                  <input id="shippingWeight" th:value="${book.shippingWeight}" type="number" step="0.01" name="shippingWeight" placeholder="Shipping Weight" class="form-control"/><span class="input-group-addon">一次</span>
+                </div><span class="help-block">貨到付款</span>
+              </div>
+            </div>
+            <!-- list price-->
+            <div class="form-group">
+              <label for="listPrice" class="col-md-2 control-label">公司價</label>
+              <div class="col-md-8">
+                <div class="input-group"><span class="input-group-addon">$</span>
+                  <input id="listPrice" th:value="${book.listPrice}" type="number" name="listPrice" step="0.01" placeholder="List Price" class="form-control"/>
+                </div><span class="help-block">公司價</span>
+              </div>
+            </div>
+            <!-- our price-->
+            <div class="form-group">
+              <label for="ourPrice" class="col-md-2 control-label">賣家價</label>
+              <div class="col-md-8">
+                <div class="input-group"><span class="input-group-addon">$</span>
+                  <input id="ourPrice" th:value="${book.ourPrice}" type="number" name="ourPrice" step="0.01" placeholder="Our Price" class="form-control"/>
+                </div><span class="help-block">賣家價</span>
+              </div>
+            </div>
+            <!-- in stock number-->
+            <div class="form-group">
+              <label for="inStockNumber" class="col-md-2 control-label">市價</label>
+              <div class="col-md-8">
+                <input id="inStockNumber" th:value="${book.inStockNumber}" type="number" name="inStockNumber" placeholder="Number of in-stock copies" class="form-control"/><span class="help-block">
+                   
+                  相似商品的市價</span>
+              </div>
+            </div>
+            <!-- status of book-->
+            <div class="form-group">
+              <label for="status" class="col-md-2 control-label">狀態</label>
+              <div class="col-md-8">
+                <label>
+                  <input value="true" type="radio" name="active" th:checked="${book.active}"/> 發布
+                </label>
+                <label>
+                  <input value="false" type="radio" name="active" th:checked="${!book.active}"/> 暫存
+                </label><span class="help-block">選擇物資是否正式上架。</span>
+              </div>
+            </div>
+            <!-- description-->
+            <div class="form-group">
+              <label for="description" class="col-md-2 control-label">描述</label>
+              <div class="col-md-8">
+                <textarea id="description" name="description" rows="5" th:value="${book.description}" th:text="${book.description}" placeholder="Description" class="form-control"><span class="help-block">物資的相關描述</span></textarea>
+              </div>
+            </div>
+            <!-- upload image-->
+            <div class="form-group">
+              <div class="col-md-2">
+                <label for="bookImage">上傳照片</label>
+              </div>
+              <div class="col-md-8">
+                <input id="bookImage" type="file" name="bookImage" th:value="${book.bookImage}"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-2"></div>
+              <div class="col-md-8">
+                <button type="submit" class="btn btn-success">更新物資</button><a th:href="@{/book/bookInfo(id=${book.id})}" class="btn btn-danger">取消</a>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    <div th:replace="common/header :: body-bottom-scripts"/>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+//-output:./AOS.html, doctype:strict
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', type='text/css')
+    link(rel='stylesheet', href='https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.css', type='text/css')
+    link(href='styles/aos.css', rel='stylesheet')
+  body(data-aos-easing='ease-out-back', data-aos-duration='1000', data-aos-delay='0')
+    nav.navbar.navbar-expand-md.navbar-light.bg-faded
+      #nav.container
+        a.navbar-brand(href='#') Navbar
+        button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse.justify-content-end
+          ul.navbar-nav
+            li.nav-item.active
+              a.nav-link(href='#') Home
+            li.nav-item
+              a.nav-link(href='#') Link
+            form.navbar-form(role='search')
+              .input-group
+                input.form-control.pull-right(type='text', style='width: 300px; margin-right: 35px, border: 1px solid black; background-color: #e5e5e5;', placeholder='Search')
+    .py-5.bg-info
+      .container
+        .row
+          .col-md-1
+            i.mx-auto.fa.fa-5x.fa-shopping-basket.text-white.d-inline
+          .col-md-7
+            h1.px-4 物資名稱
+          .col-md-4
+            h2.text-right
+              | 2017/04/19 上架
+              br
+    .py-5.section
+      .container
+        .row
+          .col-md-6
+            h1.text-primary HEADING
+            p.lead
+              | Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu,
+              | pretium quis, sem.
+            .btn-group
+              button.btn.btn-outline-primary.dropdown-toggle(data-toggle='dropdown')  數量 
+              .dropdown-menu
+                a.dropdown-item(href='#') Action
+                .dropdown-divider
+                a.dropdown-item(href='#') Separated link
+          .col-md-6
+            #carouselExampleCaptions.carousel.slide(data-ride='carousel')
+              .carousel-inner(role='listbox')
+                .carousel-item
+                  img.d-block.img-fluid(src='https://pingendo.com/assets/photos/wireframe/photo-1.jpg', data-holder-rendered='true')
+                  .carousel-caption
+                    h3 First slide label
+                    p Nulla vitae elit libero, a pharetra augue mollis interdum.
+                .carousel-item.active.h-50
+                  img.d-block.img-fluid(src='https://pingendo.com/assets/photos/wireframe/photo-1.jpg', data-holder-rendered='true')
+                  .carousel-caption
+                    h3.text-gray-dark Second slide label
+                    p.text-gray-dark Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              a.carousel-control-prev(href='#carouselExampleCaptions', role='button', data-slide='prev')
+                span.carousel-control-prev-icon.bg-inverse(aria-hidden='true')
+                span.sr-only Previous
+              a.carousel-control-next(href='#carouselExampleCaptions', role='button', data-slide='next')
+                span.carousel-control-next-icon.bg-inverse(aria-hidden='true')
+                span.sr-only Next
+      .container
+        .row
+          .col-md-3.bg-info
+          .col-md-3.bg-info
+            form.form-inline.my-4
+              .form-group  
+              button.btn.btn-primary(type='submit') 加入暫存
+              button.btn.btn-primary(type='submit') 直接送單
+          .col-md-6
+            .row
+              .col-md-3
+                i.d-block.fa.fa-bookmark.fa-3x.my-4.px-5
+              .col-md-3
+                i.d-block.fa.fa-comments.pull-left.fa-3x.my-4.px-5
+              .col-md-3
+                i.d-block.fa.fa-envelope.fa-3x.my-4.px-5
+              .col-md-3
+                i.d-block.fa.fa-share-square-o.fa-3x.my-4.px-5
+    .py-5.mx-5
+      .container
+        .row
+          .col-md-12.my-5
+            ul.list-inline.text-center
+              | 文字雲
+              br
+              | Lorem ipsum dolor sit amet consectetur adipiscing elit Aenean libero sapien malesuada pharetra eget semper sodales Donec congue nisi ultricies quis sagittis nulla gravida Vivamus consectetur pellentesque ligula accumsan purus quis Donec hendrerit
+              |             nibh eget tincidunt dignissim ultrices Aenean eleifend lectus viverra orci ullamcorper enim sagittis
+        .col-md-12
+    .aos-init.bg-faded(data-aos='fade-down', data-aos-anchor-placement='top')
+      .container-fluid
+        p.pi-draggable.lead.text-primary.text-center 其他人也看過
+        .row
+          .col-md-2
+          .col-md-2.p-0
+            img.img-fluid(src='https://pingendo.com/assets/photos/wireframe/photo-1.jpg')
+          .col-md-2.p-0
+            img.img-fluid(src='https://pingendo.com/assets/photos/wireframe/photo-1.jpg')
+          .col-md-2.p-0
+            img.img-fluid(src='https://pingendo.com/assets/photos/wireframe/photo-1.jpg')
+          .col-md-2.p-0
+            img.img-fluid(src='https://pingendo.com/assets/photos/wireframe/photo-1.jpg')
+          .col-md-2
+    .py-5.bg-primary.text-center
+      .container
+        .row
+          .col-4.col-md-4
+            a(herf='history.back()')
+              i.fa.fa-5x.fa-fw.fa-arrow-left.text-white
+          .col-4.col-md-4
+            a
+              i.fa.fa-5x.fa-fw.fa-archive.text-white
+          .col-4.col-md-4
+            a(href='#nav')
+              i.fa.fa-5x.fa-fw.fa-chevron-circle-up.text-white
+    script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
+    script(src='https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js')
+    script(src='https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js')
+    script.
+      AOS.init({
+      easing: 'ease-out-back',
+      duration: 1000
+      });
+    script.
+      hljs.initHighlightingOnLoad();
+      $('.hero__scroll').on('click', function(e) {
+      $('html, body').animate({
+      scrollTop: $(window).height()
+      }, 1200);
+      });

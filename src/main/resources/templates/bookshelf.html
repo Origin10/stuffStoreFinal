@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+  <head th:replace="common/header :: common-header"/>
+  <body>
+    <div th:replace="common/header :: navbar"/>
+    <div class="container">
+      <div style="margin-bottom: -100px;" class="row">
+        <div class="col-xs-8">
+          <h2 class="section-headline">
+            <h2 class="section-headline"><span th:text="${user}? '使用者 '+${#strings.toUpperCase(user.username)}+' 歡迎您的蒞臨' : 'PetFriends 物資交換中心'"></span></h2>
+          </h2>
+        </div>
+        <div class="col-xs-4"></div>
+      </div>
+      <hr style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;"/><img src="/imgs/wood.png" style="margin-top: -75px;" class="img-responsive"/>
+      <div style="margin-top: 60px;" class="row">
+        <div class="col-xs-3">
+          <h3>
+            <label for="category">分類</label>
+          </h3>
+          <div id="category" class="list-group"><a th:href="@{/bookshelf(category='all')}" th:classappend="${activeAll}? 'active'" class="list-group-item">全部</a><a th:href="@{/searchByCategory(category='Management')}" th:classappend="${activeManagement}? 'active'" class="list-group-item">玩具</a><a th:href="@{/searchByCategory(category='Fiction')}" th:classappend="${activeFiction}? 'active'" class="list-group-item">食物</a><a th:href="@{/searchByCategory(category='Engineering')}" th:classappend="${activeEngineering}? 'active'" class="list-group-item">清潔保養品</a><a th:href="@{/searchByCategory(category='Programming')}" th:classappend="${activeProgramming}? 'active'" class="list-group-item">日常消耗品</a><a th:href="@{/searchByCategory(category='Arts &amp; Literature')}" th:classappend="${activeArtsLiterature}? 'active'" class="list-group-item">其他</a></div>
+        </div>
+        <div class="col-xs-9">
+          <div th:if="${emptyList}">
+            <div class="alert alert-info"><strong style="font-style: italic;">抱歉！沒有你搜尋的結果，可以留下您電子信箱，有相關物資上架時讓我們通知您。</strong></div>
+            <div class="text-center">
+              <div th:if="${emailSent}" class="alert alert-info">已經寄了一封驗證信，麻煩至信箱開啟訂閱功能。</div>
+              <form th:action="@{/newUser}" method="post">
+                <div class="form-group"><span style="color: green;" th:if="${emailExists}">感謝您的訂閱。</span>
+                  <input id="email" type="text" name="email" size="50px" placeholder="填寫電子信箱用來訂閱您想追蹤的項目。" class="input-sm"/>
+                  <button type="submit" class="btn btn-success bt">通知我</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <table id="bookList" border="0">
+            <thead>
+              <tr>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-th-each="book : ${bookList}" class="book-item">
+                <td>
+                  <div th:if="${book != null}">
+                    <div style="margin-bottom: 50px;" class="row">
+                      <div class="col-xs-3"><a th:href="@{/bookDetail?id=}+${book.id}"><img th:src="@{/imgs/book/}+${book.id}+'.png'" class="img-responsive shelf-book"/></a></div>
+                      <div class="col-xs-9"><a th:href="@{/bookDetail?id=}+${book.id}">
+                          <h4 th:text="${book.title}"></h4></a><span th:text="${book.publicationDate}"></span>
+                        <p th:text="${book.author}"></p><a th:href="@{/bookDetail?id=}+${book.id}"><span th:text="${#strings.capitalize(book.format)}"></span></a><span th:text="${book.numberOfPages}"><span> 頁數</span></span><br/><a th:href="@{/bookDetail?id=}+${book.id}"><span style="font-size: x-large; color: #db3208;">$<span th:text="${#numbers.formatDecimal(book.ourPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span></a><span style="text-decoration: line-through;">$<span th:text="${#numbers.formatDecimal(book.listPrice, 0 , 'COMMA', 2, 'POINT')}"></span></span>
+                        <p th:utext="${#strings.abbreviate(book.description, 1000)}"></p>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- end of container-->
+    <div th:replace="common/header :: footer"/>
+    <div th:replace="common/header :: body-bottom-scripts"/>
+    <script>
+      $(document).ready(function() {
+      $('#bookList').DataTable({
+      "lengthMenu":[[5,10,15,20,-1],[5,10,15,20,"All"]],
+      "ordering":false,
+      stateSave:true
+      });
+      $("#bookList").on('page.dt', function() {
+      $('html, body').animate({
+      scrollTop: $('#bookList').offset().top
+      }, 200);
+      });
+      });
+      
+      $('.alert').delay(3000).fadeOut();
+    </script>
+  </body>
+</html>

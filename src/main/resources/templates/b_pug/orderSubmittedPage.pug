@@ -1,0 +1,41 @@
+//output:../orderSubmittedPage.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+  head(th:replace='common/header :: common-header')
+  body
+    div(th:replace='common/header :: navbar')
+    .container
+      .row(style='margin-bottom: -100px;')
+        .col-xs-8
+          h2.section-headline
+            span 使用者帳號
+        .col-xs-4
+          img.img-responsive(src='/imgs/logo.png')
+      hr(style='position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
+      img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
+      .row(style='margin-top: 10px;')
+        .col-xs-12
+          .alert.alert-success
+            h3
+              i.fa.fa-check(aria-hidden='true', style='color: limegreen;')
+              |  已收到您的訂單。
+            h4
+              | 預計收貨日期為：
+              span(th:text='${estimatedDeliveryDate}')
+          h3 項目列表
+          .row(th:each='cartItem : ${cartItemList}')
+            hr
+            .col-xs-2
+            .col-xs-2
+              a(th:href='@{/bookDetail(id=${cartItem.book.id})}')
+                img.img-responsive.shelf-book(th:src="#{adminPath}+@{/imgs/book/}+${cartItem.book.id}+'.png'", style='width: 70px;')
+            .col-xs-6
+              div(style='margin-left: 50px;')
+                a(th:href='@{/bookDetail?id=}+${cartItem.book.id}')
+                  h4(th:text='${cartItem.book.title}')
+            .col-xs-2
+              h5(style='color: #db3208; font-size: large;')
+                | $
+                span(th:text='${cartItem.book.ourPrice}', th:style="${cartItem.book.inStockNumber}==0? 'text-decoration: line-through' : ''")
+    // end of container
+    div(th:replace='common/header :: footer')
+    div(th:replace='common/header :: body-bottom-scripts')

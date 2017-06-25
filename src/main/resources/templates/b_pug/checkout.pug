@@ -1,0 +1,280 @@
+//output:../checkout.html, doctype:strict
+html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+  head(th:replace='common/header :: common-header')/
+  body
+    div(th:replace='common/header :: navbar')/
+    .container
+      .row(style='margin-bottom: -100px;')
+        .col-xs-8
+          h2.section-headline
+            span User Account
+        .col-xs-4
+          img.img-responsive(src='/imgs/logo.png')
+      hr(style='position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -80px;')
+      img.img-responsive(src='/imgs/wood.png', style='margin-top: -75px;')
+      .row(style='margin-top: 10px;')
+        form(th:action='@{/checkout}', method='post')
+          // Left Panel
+          .col-xs-4
+            .panel.panel-default
+              .panel-body
+                button.btn.btn-warning.btn-block(type='submit')
+                  | 訂貨地址
+                p(style='font-size: smaller;')
+                  | 你同意關於PetFriends提供的
+                  a(href='#') 政策
+                  | notice and 
+                  a(href='#') 條件
+                  | 來使用
+                hr
+                h3 訂單簡要
+                .row
+                  .col-xs-7.text-left 稅前:
+                  .col-xs-5.text-right
+                    | $
+                    span(th:text='${shoppingCart.grandTotal}')
+                .row
+                  .col-xs-7.text-left 含稅:
+                  .col-xs-5.text-right
+                    | $
+                    span(th:with='tax=${shoppingCart.grandTotal*0.06}', th:text='${#numbers.formatDecimal(tax, 0 ,2)}')
+                .row
+                  .col-xs-7.text-left
+                    h3(style='color: darkred;')
+                      strong 訂單總和: 
+                  .col-xs-5.text-right
+                    h3
+                      strong(style='color: darkred;')
+                        | $
+                        span(th:with='total=${shoppingCart.grandTotal+shoppingCart.grandTotal*0.06}', th:text='${#numbers.formatDecimal(total, 0 ,2)}')
+                .panel-footer
+                  | Shipping and handling haven't
+                  | applied.
+          // Checkout Info
+          .col-xs-8
+            div(th:if='${missingRequiredField}')
+              h5.alert.alert-warning
+                | 這裡有一些必要欄位＊需要填寫
+            #accordion.panel-group
+              // 1. Shipping Address
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#shippingInfo')  1. 寄貨地址
+                #shippingInfo.panel-collapse.collapse(th:classappend="${classActiveShipping}? 'in'")
+                  .panel-body
+                    table.table(th:if='${not emptyShippingList}')
+                      thead
+                        tr
+                          th 可收貨地址
+                          th 操作
+                      tbody
+                        tr(th:each='memShipping : ${memShippingList}')
+                          td(th:text="${memShipping.userShippingStreet1}+' '+${memShipping.userShippingStreet2}+', '+${memShipping.userShippingCity}\
+                          +', '+${memShipping.userShippingState}")
+                          td
+                            a(th:href='@{/setShippingAddress(userShippingId=${memShipping.id})}')
+                              | 使用
+                              | 這個地址
+                    .form-group
+                      label(for='shippingName') * 收貨人姓名
+                      input#shippingName.form-control(type='text', placeholder='Receiver Name', name='shippingAddressName', th:value='${shippingAddress.shippingAddressName}')
+                    .form-group
+                      label(for='shippingStreet') * 收穫地址
+                      input#shippingStreet.form-control(type='text', placeholder='Street Address 1', name='shippingAddressStreet1', th:value='${shippingAddress.shippingAddressStreet1}')
+                    .form-group
+                      input.form-control(type='text', placeholder='Street Address 2', name='shippingAddressStreet2', th:value='${shippingAddress.shippingAddressStreet2}')
+                    .row
+                      .col-xs-4
+                        .form-group
+                          label(for='shippingCity') * 城市
+                          input#shippingCity.form-control(type='text', placeholder='Shipping City', th:name='shippingAddressCity', required='required', th:value='${shippingAddress.shippingAddressCity}')
+                      .col-xs-4
+                        .form-group
+                          label(for='shippingState') * 國家
+                          select#shippingState.form-control(th:name='shippingAddressState', th:value='${shippingAddress.shippingAddressState}', required='required')
+                            option(value='', disabled='disabled')
+                              | 請選擇一個選項
+                            option(th:each='state : ${stateList}', th:text='${state}', th:selected='(${shippingAddress.shippingAddressState}==${state})')
+                      .col-xs-4
+                        .form-group
+                          label(for='shippingZipcode') * 郵遞區號
+                          input#shippingZipcode.form-control(type='text', placeholder='Shipping Zipcode', th:name='shippingAddressZipcode', required='required', th:value='${shippingAddress.shippingAddressZipcode}')
+                    a.btn.btn-warning.pull-right(data-toggle='collapse', data-parent='#accordion', href='#paymentInfo') 下一步
+              // Payment Information
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#paymentInfo')  2. 付款資訊
+                #paymentInfo.panel-collapse.collapse(th:classappend="${classActivePayment}? 'in'")
+                  .panel-body
+                    table.table(th:if='${not emptyPaymentList}')
+                      thead
+                        tr
+                          th 可使用的信用卡
+                          th 操作
+                      tbody
+                        tr(th:each='userPayment : ${userPaymentList}')
+                          td(th:text='${userPayment.cardName}')
+                          td
+                            a(th:href='@{/setPaymentMethod(userPaymentId=${userPayment.id})}')
+                              | 使用
+                              | 這個付款方式
+                    // Credit Card Information
+                    .row
+                      .col-xs-12
+                        img.img-responsive(th:src='@{/imgs/creditcard.png}')
+                        br
+                        .form-group
+                          label(for='cardType') * 選擇信用卡型態: 
+                          select#cardType.form-control(name='type', th:value='${payment.type}')
+                            option(value='visa') Visa
+                            option(value='mastercard') Mastercard
+                            option(value='discover') Discover
+                            option(value='amex') 美國運通
+                        .form-group
+                          label(for='cardHolder') * 持卡人姓名:
+                          input#cardHolder.form-control(type='text', required='required', placeholder='Card Holder Name', th:name='holderName', th:value='${payment.holderName}')
+                        .form-group
+                          label(for='cardNumber') * 信用卡卡號:
+                          .input-group
+                            input#cardNumber.form-control(type='tel', required='required', placeholder='Valid Card Number', th:name='cardNumber', th:value='${payment.cardNumber}')
+                            span.input-group-addon
+                              i.fa.fa-credit-card(aria-hidden='true')
+                    .row
+                      .col-xs-7
+                        .form-group
+                          label * Expiration Date
+                          .row
+                            .col-xs-6
+                              select.form-control(name='expiryMonth', required='required', th:value='${payment.expiryMonth}')
+                                option(disabled='disabled') -- 月份 --
+                                option(value='01') Jan (01)
+                                option(value='02') Feb (02)
+                                option(value='03') Mar (03)
+                                option(value='04') Apr (04)
+                                option(value='05') May (05)
+                                option(value='06') June (06)
+                                option(value='07') July (07)
+                                option(value='08') Aug (08)
+                                option(value='09') Sep (09)
+                                option(value='10') Oct (10)
+                                option(value='11') Nov (11)
+                                option(value='12') Dec (12)
+                            .col-xs-6
+                              select.form-control(name='expiryYear', th:value='${payment.expiryYear}')
+                                option(disabled='disabled') -- 年分 --
+                                option(value='2017') 2017
+                                option(value='2018') 2018
+                                option(value='19') 2019
+                                option(value='20') 2020
+                                option(value='21') 2021
+                                option(value='22') 2022
+                                option(value='23') 2023
+                                option(value='23') 2024
+                                option(value='23') 2025
+                                option(value='23') 2026
+                                option(value='23') 2027
+                                option(value='23') 2028
+                                option(value='23') 2029
+                      .col-xs-5
+                        .form-group
+                          label(for='cardCVC') CV Code
+                          input#cardCVC.form-control(type='tel', name='cvc', placeholder='CVC', th:name='cvc', th:value='${payment.cvc}')
+                    // Billing Address
+                    .checkbox
+                      label
+                        input#theSameAsShippingAddress(type='checkbox', name='billingSameAsShipping', value='true')
+                        | 與寄件地址相同
+                    .form-group
+                      label(for='billingName') * 姓名
+                      input#billingName.form-control.billingAddress(type='text', placeholder='Receiver Name', th:name='billingAddressName', required='required', th:value='${billingAddress.billingAddressName}')
+                    .form-group
+                      label(for='billingAddress') * 帳單地址
+                      input#billingAddress.form-control.billingAddress(type='text', placeholder='Street Address 1', th:name='billingAddressStreet1', required='required', th:value='${billingAddress.billingAddressStreet1}')
+                      input#billingAddress.form-control.billingAddress(type='text', placeholder='Street Address 2', th:name='billingAddressStreet2', th:value='${billingAddress.billingAddressStreet2}')
+                    .row
+                      .col-xs-4
+                        .form-group
+                          label(for='billingCity') * 城市
+                          input#billingCity.form-control.billingAddress(type='text', placeholder='Billing city', th:name='billingAddressCity', required='required', th:value='${billingAddress.billingAddressCity}')
+                      .col-xs-4
+                        .form-group
+                          label(for='billingState') * 國家
+                          select#billingState.form-control.billingAddress(th:name='billingAddressState', th:value='${billingAddress.billingAddressState}', required='required')
+                            option(value='', disabled='disabled')
+                              | 請選一個選項
+                            option(th:each='state : ${stateList}', th:text='${state}', th:selected='(${billingAddress.billingAddressState}==${state})')
+                      .col-xs-4
+                        .form-group
+                          label(for='billingZipcode') * 郵遞區號
+                          input#billingZipcode.form-control.billingAddress(type='text', placeholder='Billing Zipcode', th:name='billingAddressZipcode', required='required', th:value='${billingAddress.billingAddressZipcode}')
+                    a.btn.btn-warning.pull-right(data-toggle='collapse', data-parent='#accordion', href='#reviewItems') 下一步
+              // 3. Review Items and Shipping
+              .panel.panel-default
+                .panel-heading
+                  h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#reviewItems')  3. 檢視項目與郵遞資訊
+                #reviewItems.panel-collapse.collapse
+                  .panel-body
+                    h4 選擇你的郵遞資訊:
+                    .radio
+                      label
+                        input(type='radio', name='shippingMethod', value='groundShipping', checked='checked')
+                        |  郵寄
+                    .radio
+                      label
+                        input(type='radio', name='shippingMethod', value='premiumShipping')
+                        |  快遞
+                    .row
+                      .col-xs-8
+                        h4 貨物
+                      .col-xs-2
+                        h4 價格
+                      .col-xs-2
+                        h4 數量
+                    // display products in cart
+                    .row(th:each='cartItem : ${cartItemList}')
+                      hr
+                      .col-xs-2
+                        a(th:href='@{/bookDetail(id=${cartItem.book.id})}')
+                          img.img-responsive.shelf-book(th:src="#{adminPath}+@{/imgs/book/}+${cartItem.book.id}+'.png'", style='width: 70px;')
+                      .col-xs-6
+                        div(style='margin-left: 50px;')
+                          a(th:href='@{/bookDetail?id=}+${cartItem.book.id}')
+                            h4(th:text='${cartItem.book.title}')
+                          p(th:if='${cartItem.book.inStockNumber>10}', style='color: green;') 在庫存
+                          p(th:if='${cartItem.book.inStockNumber<10 and cartItem.book.inStockNumber>0}', style='color: green;')
+                            | 只剩
+                            span(th:text='${cartItem.book.inStockNumber}')
+                            | 在庫存
+                          p(th:if='${cartItem.book.inStockNumber==0}', style='color: darkred;') 商品不能選購
+                          a(th:href='@{/shoppingCart/removeItem?id=}+${cartItem.id}') 刪除
+                      .col-xs-2
+                        h5(style='color: #db3208; font-size: large;')
+                          | $
+                          span(th:text='${cartItem.book.ourPrice}', th:style="${cartItem.book.inStockNumber}==0? 'text-decoration: line-through' : ''")
+                      .col-xs-2
+                        h5(style='font-size: large;', th:text='${cartItem.qty}')
+                    hr
+                    h4.col-xs-12.text-right
+                      strong(style='font-size: large;')
+                        | 總和 (
+                        span(th:text='${#lists.size(cartItemList)}')
+                        | 個項目):
+                      span(style='color: #db3208; font-szie: large;')
+                        | $
+                        span(th:text='${shoppingCart.grandTotal}')
+                    br
+                    br
+                    button.btn.btn-warning.btn-block(type='submit')
+                      | 確定你的訂購
+                    p(style='font-size: smaller;')
+                      | 並且同意PetFriends所提供的 
+                      a(href='#') 政策
+                      | 訊息以及 
+                      a(th:href='@{/auction}')  買賣雙方條約
+                      |  使用
+    // end of container
+    div(th:replace='common/header :: footer')/
+    div(th:replace='common/header :: body-bottom-scripts')/

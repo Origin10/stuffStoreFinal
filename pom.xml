@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.bookstore</groupId>
-	<artifactId>stuffStore</artifactId>
+	<artifactId>stuffStoreFinal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>stuffStore</name>
+	<name>stuffStoreFinal</name>
 	<description>frontend part for our bookstore project</description>
 
 	<parent>

@@ -1,0 +1,17 @@
+package com.stuffstoreE.repository;
+
+import java.util.List;
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.stuffstoreE.domain.CartItem;
+import com.stuffstoreE.domain.Order;
+import com.stuffstoreE.domain.ShoppingCart;
+
+@Transactional
+public interface CartItemRepository extends CrudRepository<CartItem, Long>{
+	List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
+	
+	List<CartItem> findByOrder(Order order);
+}

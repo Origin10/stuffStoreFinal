@@ -1,5 +1,5 @@
 //output:../addBook.html, doctype:strict
-html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+html(lang='zh-TW', xmlns:th='http://www.w3.org/1000/xhtml')
   head(th:replace='common/header :: common-header')/
   script(src='//cdn.tinymce.com/4/tinymce.min.js')
   script.
@@ -61,11 +61,11 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
                 select#category.form-control(th:value='${book.category}', name='category')
                   option(value='', selected='selected', disabled='disabled')
                     | 請選擇一項分類
-                  option(value='玩具', th:selected="(${book.category}=='Toy')") 玩具
-                  option(value='食物', th:selected="(${book.category}=='Food')") 食物
-                  option(value='保養品', th:selected="(${book.category}=='CareProducts')") 保養品
-                  option(value='日常消耗品', th:selected="(${book.category}=='Programming')") 日常消耗品
-                  option(value='其他', th:selected="(${book.category}=='Others')") 其他
+                  option(value='Toy', th:selected="(${book.category}=='Toy')") 玩具
+                  option(value='Food', th:selected="(${book.category}=='Food')") 食物
+                  option(value='CareProducts', th:selected="(${book.category}=='CareProducts')") 保養品
+                  option(value='Daily', th:selected="(${book.category}=='Daily')") 日常消耗品
+                  option(value='Others', th:selected="(${book.category}=='Others')") 其他
             // pages
             .form-group
               label.col-md-2.control-label(for='pageNumber') 單位重量

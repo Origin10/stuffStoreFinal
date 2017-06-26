@@ -1,5 +1,5 @@
 //output:../bookshelf.html, doctype:strict
-html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
+html(lang='zh-TW', xmlns:th='http://www.w3.org/1000/xhtml')
   head(th:replace='common/header :: common-header')/
   body
     div(th:replace='common/header :: navbar')/
@@ -20,8 +20,8 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
             a.list-group-item(th:href="@{/searchByCategory(category='Toy')}", th:classappend="${activeManagement}? 'active'") 玩具
             a.list-group-item(th:href="@{/searchByCategory(category='Food')}", th:classappend="${activeFiction}? 'active'") 食物
             a.list-group-item(th:href="@{/searchByCategory(category='CareProdus')}", th:classappend="${activeEngineering}? 'active'") 清潔保養品
-            a.list-group-item(th:href="@{/searchByCategory(category='Programing')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
-            a.list-group-item(th:href="@{/searchByCategory(category='Other')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
+            a.list-group-item(th:href="@{/searchByCategory(category='Daily')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
+            a.list-group-item(th:href="@{/searchByCategory(category='Others')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
         .col-xs-9
           div(th:if='${emptyList}')
             .alert.alert-info

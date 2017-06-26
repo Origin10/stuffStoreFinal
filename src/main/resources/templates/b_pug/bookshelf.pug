@@ -17,11 +17,11 @@ html(lang='en', xmlns:th='http://www.w3.org/1000/xhtml')
             label(for='category') 分類
           #category.list-group
             a.list-group-item(th:href="@{/bookshelf(category='all')}", th:classappend="${activeAll}? 'active'") 全部
-            a.list-group-item(th:href="@{/searchByCategory(category='玩具')}", th:classappend="${activeManagement}? 'active'") 玩具
-            a.list-group-item(th:href="@{/searchByCategory(category='食物')}", th:classappend="${activeFiction}? 'active'") 食物
-            a.list-group-item(th:href="@{/searchByCategory(category='清潔保養品')}", th:classappend="${activeEngineering}? 'active'") 清潔保養品
-            a.list-group-item(th:href="@{/searchByCategory(category='日常消耗品')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
-            a.list-group-item(th:href="@{/searchByCategory(category='其他')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
+            a.list-group-item(th:href="@{/searchByCategory(category='Toy')}", th:classappend="${activeManagement}? 'active'") 玩具
+            a.list-group-item(th:href="@{/searchByCategory(category='Food')}", th:classappend="${activeFiction}? 'active'") 食物
+            a.list-group-item(th:href="@{/searchByCategory(category='CareProdus')}", th:classappend="${activeEngineering}? 'active'") 清潔保養品
+            a.list-group-item(th:href="@{/searchByCategory(category='Programing')}", th:classappend="${activeProgramming}? 'active'") 日常消耗品
+            a.list-group-item(th:href="@{/searchByCategory(category='Other')}", th:classappend="${activeArtsLiterature}? 'active'") 其他
         .col-xs-9
           div(th:if='${emptyList}')
             .alert.alert-info

@@ -15,7 +15,7 @@ import com.bookstore.domain.security.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "user_tbl")
+//@Table(name = "user_tbl")
 public class User implements UserDetails{
 	
 	@Id
